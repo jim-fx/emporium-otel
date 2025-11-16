@@ -1,0 +1,5 @@
+package: gen
+generate:
+  strict-server: true
+  gin-server: true
+output: gen/routes.go

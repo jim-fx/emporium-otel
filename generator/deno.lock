@@ -1,0 +1,43 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@openai/openai@^6.9.0": "6.9.0",
+    "jsr:@std/assert@1": "1.0.15",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
+    "npm:postgres@*": "3.4.7",
+    "npm:postgres@^3.4.7": "3.4.7",
+    "npm:zod@3": "3.25.76"
+  },
+  "jsr": {
+    "@openai/openai@6.9.0": {
+      "integrity": "d1828101f5a782a75c25805c4e06c1316d9c19f422d84755fb908046184c3ef6",
+      "dependencies": [
+        "npm:zod"
+      ]
+    },
+    "@std/assert@1.0.15": {
+      "integrity": "d64018e951dbdfab9777335ecdb000c0b4e3df036984083be219ce5941e4703b",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
+    }
+  },
+  "npm": {
+    "postgres@3.4.7": {
+      "integrity": "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="
+    },
+    "zod@3.25.76": {
+      "integrity": "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@openai/openai@^6.9.0",
+      "jsr:@std/assert@1",
+      "npm:postgres@^3.4.7"
+    ]
+  }
+}

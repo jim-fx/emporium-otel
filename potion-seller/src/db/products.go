@@ -1,0 +1,75 @@
+package db
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/jackc/pgx/v5"
+)
+
+type Product struct {
+	Name        string `db:"name"`
+	Type        string `db:"type"`
+	Rarity      string `db:"rarity"`
+	Price       int    `db:"price"`
+	Image       string `db:"image"`
+	Description string `db:"description"`
+}
+
+// ListProducts returns all products ordered by name.
+func (db *DB) ListProducts(ctx context.Context) ([]Product, error) {
+	rows, err := db.conn.Query(ctx, `
+		SELECT
+			name,
+			type,
+			rarity,
+			price,
+			image,
+			description
+		FROM products
+		ORDER BY name;
+	`)
+	if err != nil {
+		return nil, fmt.Errorf("query products: %w", err)
+	}
+	defer rows.Close()
+
+	products, err := pgx.CollectRows(rows, pgx.RowToStructByName[Product])
+	if err != nil {
+		return nil, fmt.Errorf("collect products: %w", err)
+	}
+
+	return products, nil
+}
+
+// GetProductByName returns a single product by its name.
+// If no product is found, (*Product, nil) is returned as (nil, nil).
+func (db *DB) GetProductByName(ctx context.Context, name string) (*Product, error) {
+	rows, err := db.conn.Query(ctx, `
+		SELECT
+			name,
+			type,
+			rarity,
+			price,
+			image,
+			description
+		FROM products
+		WHERE name = $1
+		LIMIT 1;
+	`, name)
+	if err != nil {
+		return nil, fmt.Errorf("query products: %w", err)
+	}
+	defer rows.Close()
+
+	products, err := pgx.CollectRows(rows, pgx.RowToStructByName[Product])
+	if err != nil {
+		return nil, fmt.Errorf("collect products: %w", err)
+	}
+
+	if len(products) == 0 {
+		return nil, fmt.Errorf("product not found")
+	}
+
+	return &products[0], nil
+}

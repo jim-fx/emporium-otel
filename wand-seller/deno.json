@@ -1,0 +1,18 @@
+{
+  "imports": {
+    "@types/pg": "npm:@types/pg@^8.15.6",
+    "drizzle-kit": "npm:drizzle-kit@^0.31.7",
+    "drizzle-orm": "npm:drizzle-orm@^0.44.7",
+    "hono": "jsr:@hono/hono@^4.10.6",
+    "pg": "npm:pg@^8.16.3",
+    "postgres": "npm:postgres@^3.4.7"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --env-file=../.env main.ts",
+    "dev": "deno run --watch -A main.ts"
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  }
+}
