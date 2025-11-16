@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-display: swap;
+  font-family: 'MedievalSharp';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/medievalsharp-v28-latin-regular.woff2') format('woff2');
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +31,26 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  background-image: url(/textures/wood_cabinet.jpg);
+  background-size: 40%;
+}
+
+h1 {
+  font-family: MedievalSharp !important;
+  font-size: 2em;
+  color: white;
+}
+
+
+header::before {
+  content: "";
+  background: linear-gradient(0deg, #1e1915 0%, #35280000 13%, #000 100%);
+  width: 100%;
+  position: absolute;
+  bottom: -2px;
+  top: -2px;
+  opacity: 0.7;
 }
