@@ -1,7 +1,6 @@
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { Card } from "./ui/card.tsx";
+import { Button } from "./ui/button.tsx";
+import { Badge } from "./ui/badge.tsx";
 import { ShoppingCart } from "lucide-react";
 
 interface ProductCardProps {
@@ -18,19 +17,23 @@ const rarityColors = {
   common: "bg-slate-500",
   rare: "bg-blue-500",
   epic: "bg-purple-500",
-  legendary: "bg-amber-500"
+  legendary: "bg-amber-500",
 };
 
-export function ProductCard({ name, price, description, image, rarity, onAddToCart }: ProductCardProps) {
+export function ProductCard(
+  { name, price, description, image, rarity, onAddToCart }: ProductCardProps,
+) {
   return (
     <Card className="overflow-hidden border-2 border-amber-600/30 bg-gradient-to-br from-slate-800 to-slate-900 hover:border-amber-600/60 transition-all group">
       <div className="aspect-square relative overflow-hidden bg-slate-950">
-        <ImageWithFallback
+        <img
           src={image}
           alt={name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
-        <Badge className={`absolute top-2 right-2 ${rarityColors[rarity]} border-0`}>
+        <Badge
+          className={`absolute top-2 right-2 ${rarityColors[rarity]} border-0`}
+        >
           {rarity}
         </Badge>
       </div>
