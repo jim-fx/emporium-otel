@@ -49,8 +49,8 @@ export function Main() {
           <section>
             <SellerCard
               name="Bartholomew's Potions"
+              character="gopher_dark_transparent.png"
               description="Master alchemist specializing in healing and enhancement elixirs"
-              character="🔵"
               color="brightness-110"
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
@@ -71,7 +71,7 @@ export function Main() {
             <SellerCard
               name="Elara's Enchantments"
               description="Purveyor of mystical amulets and protective charms"
-              character="🐘"
+              character="elephant_dark_transparent.png"
               color="brightness-110 hue-rotate-180"
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
@@ -92,7 +92,7 @@ export function Main() {
             <SellerCard
               name="Grimjaw's Armory"
               description="Ancient warrior offering legendary weapons and wands"
-              character="🦴"
+              character="denosaur_dark_transparent.png"
               color="grayscale brightness-150"
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
