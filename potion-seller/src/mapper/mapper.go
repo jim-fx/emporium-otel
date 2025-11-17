@@ -7,8 +7,6 @@ import (
 
 func ProductRarityToItem(rarity string) gen.ItemRarity {
 	switch rarity {
-	case "common":
-		return gen.Common
 	case "epic":
 		return gen.Epic
 	case "legendary":
@@ -22,12 +20,27 @@ func ProductRarityToItem(rarity string) gen.ItemRarity {
 	}
 }
 
+func ProductTypeToType(itemType string) gen.ItemType {
+	switch itemType {
+	case "charm":
+		return gen.Charm
+	case "weapon":
+		return gen.Weapon
+	case "potion":
+		return gen.Potion
+	default:
+		panic("UNknown item type")
+	}
+}
+
 func ProductToItem(product db.Product) gen.Item {
 	rarity := ProductRarityToItem(product.Rarity)
+	itemType := ProductTypeToType(product.Type)
 	return gen.Item{
 		Description: &product.Description,
 		Name:        product.Name,
 		Price:       float32(product.Price),
+		Type:        &itemType,
 		Rarity:      &rarity,
 		Stock:       1,
 	}

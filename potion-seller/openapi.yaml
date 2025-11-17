@@ -171,6 +171,11 @@ components:
           type: string
           description: Display name of the item.
           example: Elder Wand
+        type:
+          type: string
+          description: Type of the item
+          enum: [charm, weapon, potion]
+          example: charm
         description:
           type: string
           description: Short description of the item.

@@ -41,6 +41,7 @@ type MiddlewareFunc func(c *gin.Context)
 
 // GetItems operation middleware
 func (siw *ServerInterfaceWrapper) GetItems(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
@@ -74,6 +75,7 @@ func (siw *ServerInterfaceWrapper) GetItems(c *gin.Context) {
 
 // GetItemsItemId operation middleware
 func (siw *ServerInterfaceWrapper) GetItemsItemId(c *gin.Context) {
+
 	var err error
 
 	// ------------- Path parameter "itemId" -------------
@@ -97,6 +99,7 @@ func (siw *ServerInterfaceWrapper) GetItemsItemId(c *gin.Context) {
 
 // PostItemsItemIdPurchase operation middleware
 func (siw *ServerInterfaceWrapper) PostItemsItemIdPurchase(c *gin.Context) {
+
 	var err error
 
 	// ------------- Path parameter "itemId" -------------
@@ -120,6 +123,7 @@ func (siw *ServerInterfaceWrapper) PostItemsItemIdPurchase(c *gin.Context) {
 
 // GetItemsItemIdStock operation middleware
 func (siw *ServerInterfaceWrapper) GetItemsItemIdStock(c *gin.Context) {
+
 	var err error
 
 	// ------------- Path parameter "itemId" -------------
@@ -313,10 +317,8 @@ type StrictServerInterface interface {
 	GetItemsItemIdStock(ctx context.Context, request GetItemsItemIdStockRequestObject) (GetItemsItemIdStockResponseObject, error)
 }
 
-type (
-	StrictHandlerFunc    = strictgin.StrictGinHandlerFunc
-	StrictMiddlewareFunc = strictgin.StrictGinMiddlewareFunc
-)
+type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
+type StrictMiddlewareFunc = strictgin.StrictGinMiddlewareFunc
 
 func NewStrictHandler(ssi StrictServerInterface, middlewares []StrictMiddlewareFunc) ServerInterface {
 	return &strictHandler{ssi: ssi, middlewares: middlewares}

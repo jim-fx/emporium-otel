@@ -27,6 +27,7 @@ func (db *DB) ListProducts(ctx context.Context) ([]Product, error) {
 			image,
 			description
 		FROM products
+		WHERE type = 'potion'
 		ORDER BY name;
 	`)
 	if err != nil {

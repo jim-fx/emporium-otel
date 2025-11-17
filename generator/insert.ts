@@ -18,8 +18,10 @@ const sql = postgres({
 
 async function main() {
   // setup product table
+  await sql`DROP TABLE products;`;
   await sql`
     CREATE TABLE IF NOT EXISTS products (
+      id          UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
       name        VARCHAR(255) NOT NULL,
       type        VARCHAR(50)  NOT NULL,
       rarity      VARCHAR(50)  NOT NULL,
@@ -33,11 +35,7 @@ async function main() {
   const products: Product[] = JSON.parse(productsJson);
 
   for (const product of products) {
-    const imageUrl = `http://localhost:3000/products/${
-      encodeURIComponent(
-        product.name,
-      )
-    }.png`;
+    const imageUrl = `http://localhost:8080/products/${product.name}.png`;
 
     await sql`
       INSERT INTO products (name, type, rarity, price, image, description)

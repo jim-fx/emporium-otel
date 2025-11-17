@@ -45,7 +45,7 @@ export function ProductCard(
     >
       <div className="aspect-square relative overflow-hidden bg-slate-950">
         <img
-          src={image}
+          src={`/products/${name}.png`}
           alt={name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
@@ -57,7 +57,7 @@ export function ProductCard(
       </div>
       <div className="p-4">
         <h4 className="text-amber-400 mb-2">{name}</h4>
-        <p className="text-slate-400 text-sm mb-4">{description}</p>
+        <p className="text-slate-400 text-sm mb-4">{description.slice(0, 200)}</p>
         <div className="flex items-center justify-between">
           <span className="font-medieval text-2xl flex items-center gap-2 text-amber-300">
             {price} <img src="/coin.png" className="w-6 h-6" />

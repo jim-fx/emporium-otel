@@ -18,5 +18,5 @@ func main() {
 	}
 
 	api.Register(router, db)
-	router.Run() // listens on 0.0.0.0:8080 by default
+	router.Run("0.0.0.0:80")
 }

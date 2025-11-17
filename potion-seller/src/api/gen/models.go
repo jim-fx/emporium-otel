@@ -12,6 +12,13 @@ const (
 	Uncommon  ItemRarity = "uncommon"
 )
 
+// Defines values for ItemType.
+const (
+	Charm  ItemType = "charm"
+	Potion ItemType = "potion"
+	Weapon ItemType = "weapon"
+)
+
 // Error defines model for Error.
 type Error struct {
 	Code    *string `json:"code,omitempty"`
@@ -34,10 +41,16 @@ type Item struct {
 
 	// Stock Units currently in stock.
 	Stock int `json:"stock"`
+
+	// Type Type of the item
+	Type *ItemType `json:"type,omitempty"`
 }
 
 // ItemRarity Rarity classification of the item.
 type ItemRarity string
+
+// ItemType Type of the item
+type ItemType string
 
 // GetItemsParams defines parameters for GetItems.
 type GetItemsParams struct {

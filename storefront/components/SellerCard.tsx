@@ -17,7 +17,7 @@ export function SellerCard(
           <img
             src={`/characters/${character}`}
             alt={name}
-            className="h-50 -mt-10 origin-bottom scale-[1.2]"
+            className="h-50 ml-5 -mt-10 origin-bottom scale-[1.2]"
           />
         </div>
         <div>

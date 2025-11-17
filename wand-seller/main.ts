@@ -10,6 +10,6 @@ app.get("/", (c) => {
 });
 
 Deno.serve(
-  { port: 8081 },
+  { port: 80 },
   app.fetch,
 );

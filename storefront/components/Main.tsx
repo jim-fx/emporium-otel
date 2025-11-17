@@ -1,13 +1,15 @@
 "use client";
-import Link from "next/link";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs.tsx";
 import { SellerCard } from "./SellerCard.tsx";
 import { ProductCard } from "./ProductCard.tsx";
-import { products } from "../lib/data.ts";
+import { Product } from "../lib/data.ts";
 import { sellers } from "../lib/sellers.ts";
 import { useCart } from "../context/CartContext.tsx";
 
-export function Main() {
+type Props = {
+  products: Product[];
+};
+
+export function Main({ products }: Props) {
   const { addToCart } = useCart();
 
   return (
@@ -30,7 +32,7 @@ export function Main() {
             color={seller.color}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            {products.filter((p) => p.seller === seller.id).map((
+            {products.filter((p) => p.type === seller.productType).map((
               product,
             ) => (
               <ProductCard
