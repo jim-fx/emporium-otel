@@ -5,7 +5,6 @@ export interface Seller {
   description: string;
   character: string;
   color: string;
-  emoji: string;
 }
 
 export const sellers: Seller[] = [
@@ -17,24 +16,21 @@ export const sellers: Seller[] = [
       "Master alchemist specializing in healing and enhancement elixirs",
     character: "gopher_dark_transparent.webp",
     color: "brightness-110",
-    emoji: "🔵",
   },
   {
     id: "elephant",
-    productType: "charms",
+    productType: "charm",
     name: "Elara's Enchantments",
     description: "Purveyor of mystical amulets and protective charms",
     character: "elephant_dark_transparent.webp",
     color: "brightness-110 hue-rotate-180",
-    emoji: "🔵",
   },
   {
     id: "dinosaur",
-    productType: "weapons",
+    productType: "weapon",
     name: "Grimjaw's Armory",
     description: "Ancient warrior offering legendary weapons and wands",
     character: "denosaur_dark_transparent.webp",
     color: "grayscale brightness-150",
-    emoji: "🦴",
   },
 ];
