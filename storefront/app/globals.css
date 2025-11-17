@@ -116,3 +116,12 @@ button.buy:hover {
 .gold-bg {
   background: url("/textures/rusty.jpg");
 }
+
+.checkout-button {
+  background: url("/textures/gold.png") -6px -11px / 106%;
+  border-width: 20px;
+  border-style: solid;
+  border-image-source: url('/golden_border.png');
+  border-image-slice: 160 fill;
+  border-image-repeat: stretch;
+}

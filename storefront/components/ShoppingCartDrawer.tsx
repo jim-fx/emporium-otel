@@ -65,7 +65,7 @@ export function ShoppingCartDrawer(
         <div className="flex flex-col h-full mt-4">
           {items.length === 0
             ? (
-              <div className="flex-1 flex items-center justify-center text-slate-400 text-lg">
+              <div className="flex-1 flex items-center justify-center text-slate-400 text-lg px-4">
                 {/* Increased font size */}
                 Your cart is empty
               </div>
@@ -73,7 +73,7 @@ export function ShoppingCartDrawer(
             : (
               <>
                 <ScrollArea className="flex-1 -mx-6 px-6">
-                  <div className="space-y-4">
+                  <div className="space-y-4 px-4">
                     {items.map((item) => (
                       <div
                         key={item.id}
@@ -112,17 +112,15 @@ export function ShoppingCartDrawer(
                   </div>
                 </ScrollArea>
                 <Separator className="my-4 bg-amber-600/30" />
-                <div className="space-y-4">
+                <div className="space-y-4 px-4 mb-4">
                   <div className="flex justify-between items-center">
                     <span className="text-slate-300 text-lg">Total:</span>{" "}
-                    {/* Increased font size */}
                     <span className="text-amber-300 text-2xl">
-                      {/* Increased font size */}
                       {totalPrice} gold
                     </span>
                   </div>
                   <Button
-                    className="w-full bg-amber-600 hover:bg-amber-700 text-slate-900 text-lg py-3" // Increased font size and padding
+                    className="checkout-button w-full bg-amber-600 hover:bg-amber-700 text-slate-900 text-lg py-1" // Increased font size and padding
                     onClick={handleProceedToCheckout} // Call handleProceedToCheckout function
                     disabled={items.length === 0} // Disable if cart is empty
                   >
