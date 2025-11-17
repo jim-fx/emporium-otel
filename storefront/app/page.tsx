@@ -7,13 +7,13 @@ async function listProducts() {
   const charmRes = await fetch("http://charm-seller/items");
   const charms = await charmRes.json();
 
-  const wandRes = await fetch("http://wand-seller/items");
-  const wands = await wandRes.json();
+  const weaponsRes = await fetch("http://weapon-seller/items");
+  const weapons = await weaponsRes.json();
 
   return [
     ...potions.items,
     ...charms.items,
-    ...wands.items,
+    ...weapons.items,
   ];
 }
 

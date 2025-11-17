@@ -22,7 +22,7 @@ services:
           - ./potion-seller:/app
           - go-cache:/go
   
-  wand-seller:
+  weapon-seller:
       image: denoland/deno:2.5.6
       working_dir: /app
       command: deno task dev
@@ -30,7 +30,7 @@ services:
       ports:
           - 8082:80
       volumes:
-          - ./wand-seller:/app
+          - ./weapon-seller:/app
           - deno-cache:/deno-dir
 
   charm-seller:
