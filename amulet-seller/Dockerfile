@@ -6,6 +6,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
         unzip \
+        libpq-dev \
         libicu-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -13,7 +14,7 @@ RUN a2enmod rewrite
 
 RUN docker-php-ext-install \
     intl \
-    pdo_mysql \
+    pdo_pgsql \
     zip \
     opcache
 
