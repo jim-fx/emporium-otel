@@ -37,6 +37,7 @@ func ProductToItem(product db.Product) gen.Item {
 	rarity := ProductRarityToItem(product.Rarity)
 	itemType := ProductTypeToType(product.Type)
 	return gen.Item{
+		Id:          product.ID,
 		Description: &product.Description,
 		Name:        product.Name,
 		Price:       float32(product.Price),

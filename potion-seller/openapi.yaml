@@ -163,10 +163,13 @@ components:
     Item:
       type: object
       required:
+        - id
         - name
         - price
         - stock
       properties:
+        id:
+          type: string
         name:
           type: string
           description: Display name of the item.

@@ -29,6 +29,7 @@ type Error struct {
 type Item struct {
 	// Description Short description of the item.
 	Description *string `json:"description,omitempty"`
+	Id          string  `json:"id"`
 
 	// Name Display name of the item.
 	Name string `json:"name"`

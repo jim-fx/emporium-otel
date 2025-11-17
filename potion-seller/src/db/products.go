@@ -8,6 +8,7 @@ import (
 )
 
 type Product struct {
+	ID          string `db:"id"`
 	Name        string `db:"name"`
 	Type        string `db:"type"`
 	Rarity      string `db:"rarity"`
@@ -20,6 +21,7 @@ type Product struct {
 func (db *DB) ListProducts(ctx context.Context) ([]Product, error) {
 	rows, err := db.conn.Query(ctx, `
 		SELECT
+			id,
 			name,
 			type,
 			rarity,
