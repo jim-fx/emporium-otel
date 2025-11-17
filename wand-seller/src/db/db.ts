@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { products as productSchema } from "./schema.ts";
 import pg from "pg";
+import { eq } from "drizzle-orm";
 
 // Use pg driver.
 const { Pool } = pg;
@@ -13,5 +14,8 @@ export const db = drizzle({
 });
 
 export function listProducts() {
-  return db.select().from(productSchema);
+  return db
+    .select()
+    .from(productSchema)
+    .where(eq(productSchema.type, "weapon"));
 }
