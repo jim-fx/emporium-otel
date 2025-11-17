@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { Header } from "../components/Header.tsx";
 import "./globals.css";
+
+import { CartProvider } from "../context/CartContext.tsx";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +23,10 @@ export default function RootLayout({
         <title>Fantasy Themed Webshop</title>
       </head>
       <body>
-        {children}
+        <CartProvider>
+          <Header />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

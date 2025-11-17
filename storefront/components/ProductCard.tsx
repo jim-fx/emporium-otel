@@ -1,7 +1,9 @@
+"use client";
 import { Card } from "./ui/card.tsx";
-import { Button } from "./ui/button.tsx";
+import { Button } from "./ui/Button.tsx";
 import { Badge } from "./ui/badge.tsx";
 import { ShoppingCart } from "lucide-react";
+import { useCart } from "../context/CartContext.tsx";
 
 interface ProductCardProps {
   id: number;
@@ -10,7 +12,6 @@ interface ProductCardProps {
   description: string;
   image: string;
   rarity: "common" | "rare" | "epic" | "legendary";
-  onAddToCart: () => void;
 }
 
 const rarityColors = {
@@ -20,11 +21,28 @@ const rarityColors = {
   legendary: "bg-amber-500",
 };
 
+const getGlowClass = (rarity: ProductCardProps["rarity"]) => {
+  switch (rarity) {
+    case "epic":
+      return "shadow-purple-500/50 shadow-lg";
+    case "legendary":
+      return "shadow-amber-500/50 shadow-lg";
+    default:
+      return "";
+  }
+};
+
 export function ProductCard(
-  { name, price, description, image, rarity, onAddToCart }: ProductCardProps,
+  { name, price, description, image, rarity }: ProductCardProps,
 ) {
+  const { addToCart } = useCart();
+
   return (
-    <Card className="overflow-hidden border-2 border-amber-600/30 bg-gradient-to-br from-slate-800 to-slate-900 hover:border-amber-600/60 transition-all group">
+    <Card
+      className={`overflow-hidden border-2 border-amber-600/30 bg-gradient-to-br from-slate-800 to-slate-900 hover:border-amber-600/60 transition-all group ${
+        getGlowClass(rarity)
+      }`}
+    >
       <div className="aspect-square relative overflow-hidden bg-slate-950">
         <img
           src={image}
@@ -41,17 +59,12 @@ export function ProductCard(
         <h4 className="text-amber-400 mb-2">{name}</h4>
         <p className="text-slate-400 text-sm mb-4">{description}</p>
         <div className="flex items-center justify-between">
-          <span className="text-amber-300">
-            {price} <span className="text-sm">gold</span>
+          <span className="font-medieval text-2xl flex items-center gap-2 text-amber-300">
+            {price} <img src="/coin.png" className="w-6 h-6" />
           </span>
-          <Button
-            size="sm"
-            onClick={onAddToCart}
-            className="bg-amber-600 hover:bg-amber-700 text-slate-900"
-          >
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            Add
-          </Button>
+          <button onClick={addToCart} className="buy h-10">
+            <img src="/button.png" style={{ height: "100%" }} />
+          </button>
         </div>
       </div>
     </Card>
