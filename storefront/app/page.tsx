@@ -4,16 +4,15 @@ async function listProducts() {
   const potionRes = await fetch("http://potion-seller/items");
   const potions = await potionRes.json();
 
-  const amuletRes = await fetch("http://amulet-seller/items");
-  const amulets = await amuletRes.json();
+  const charmRes = await fetch("http://charm-seller/items");
+  const charms = await charmRes.json();
 
   const wandRes = await fetch("http://wand-seller/items");
   const wands = await wandRes.json();
-  console.log({ wands, amulets, potions });
 
   return [
     ...potions.items,
-    ...amulets.items,
+    ...charms.items,
     ...wands.items,
   ];
 }

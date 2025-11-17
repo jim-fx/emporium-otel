@@ -33,18 +33,18 @@ services:
           - ./wand-seller:/app
           - deno-cache:/deno-dir
 
-  amulet-seller:
+  charm-seller:
     working_dir: /var/www/html
     build:
-      context: ./amulet-seller
+      context: ./charm-seller
     env_file: .env
     environment:
       APP_ENV: dev
     ports:
       - 8083:80
     volumes:
-      - ./amulet-seller:/var/www/html
-      - ./docker/amulet-seller/apache/app.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./charm-seller:/var/www/html
+      - ./docker/charm-seller/apache/app.conf:/etc/apache2/sites-enabled/000-default.conf
 
   storefront:
     image: node:24-alpine
