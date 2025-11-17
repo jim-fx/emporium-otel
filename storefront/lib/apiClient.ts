@@ -1,0 +1,85 @@
+import { Product } from "./data.ts";
+import { sellers } from "./sellers.ts";
+
+// As defined in openapi.yaml
+interface ApiProduct {
+  id: string;
+  name: string;
+  price: number;
+  stock: number;
+  image?: string;
+  description: string;
+  rarity: "common" | "uncommon" | "rare" | "epic" | "legendary";
+  type: "charm" | "weapon" | "potion";
+}
+
+async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
+  const seller = sellers.find((s) => s.id === sellerId);
+  if (!seller) {
+    throw new Error(`Seller not found: ${sellerId}`);
+  }
+
+  const response = await fetch(`${seller.url}/items`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch products from ${seller.name}`);
+  }
+
+  const data: { items: ApiProduct[] } = await response.json();
+
+  return data.items.map((apiProduct) => ({
+    id: apiProduct.id,
+    name: apiProduct.name,
+    price: apiProduct.price,
+    description: apiProduct.description,
+    rarity: apiProduct.rarity,
+    stock: apiProduct.stock,
+    seller: seller.id,
+    image: apiProduct.image || `/products/${apiProduct.name}.png`,
+  }));
+}
+
+export async function listProducts(): Promise<Product[]> {
+  const allProducts = await Promise.all(
+    sellers.map((seller) => fetchProductsFromSeller(seller.id)),
+  );
+  return allProducts.flat();
+}
+
+export function getProductsBySeller(
+  sellerId: string,
+): Promise<Product[]> {
+  return fetchProductsFromSeller(sellerId);
+}
+
+export async function getProduct(
+  sellerId: string,
+  productName: string,
+): Promise<Product | undefined> {
+  const products = await fetchProductsFromSeller(sellerId);
+  return products.find((p) => p.name === productName);
+}
+
+export async function purchaseItem(
+  sellerId: string,
+  productName: string,
+  quantity: number,
+): Promise<void> {
+  const seller = sellers.find((s) => s.id === sellerId);
+  if (!seller) {
+    throw new Error(`Service URL not found for seller: ${sellerId}`);
+  }
+
+  const response = await fetch(`${seller.url}/items/${productName}/purchase`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ quantity }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || `Failed to purchase ${productName}`);
+  }
+  // Optionally, you could return the updated stock or other info from the response
+}

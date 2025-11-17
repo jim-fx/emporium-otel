@@ -1,36 +1,46 @@
 "use client";
 
-import React, { createContext, ReactNode, useContext, useState } from "react";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  rarity: "common" | "rare" | "epic" | "legendary";
-  seller: string;
-}
+import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
+import { Product, CartItem } from "../lib/data";
+import { purchaseItem } from "../lib/apiClient";
+import { getCookie, setCookie, eraseCookie } from "../lib/cookies"; // Import cookie functions
 
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (id: string) => void;
   clearCart: () => void;
+  checkout: () => Promise<void>; // Add checkout to the interface
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_COOKIE_NAME = "shopping_cart";
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+
+  // Load cart from cookie on initial mount
+  useEffect(() => {
+    const storedCart = getCookie(CART_COOKIE_NAME);
+    if (storedCart) {
+      try {
+        setCart(JSON.parse(storedCart));
+      } catch (e) {
+        console.error("Failed to parse cart from cookie", e);
+        eraseCookie(CART_COOKIE_NAME); // Clear invalid cookie
+      }
+    }
+  }, []);
+
+  // Save cart to cookie whenever cart state changes
+  useEffect(() => {
+    if (cart.length > 0) {
+      setCookie(CART_COOKIE_NAME, JSON.stringify(cart), 7); // Store for 7 days
+    } else {
+      eraseCookie(CART_COOKIE_NAME); // Clear cookie if cart is empty
+    }
+  }, [cart]);
 
   const addToCart = (product: Product) => {
     setCart((prev) => {
@@ -52,17 +62,34 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: string) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   const clearCart = () => {
     setCart([]);
+    eraseCookie(CART_COOKIE_NAME); // Ensure cookie is cleared
+  };
+
+  const checkout = async () => {
+    try {
+      for (const item of cart) {
+        const [sellerId, productName] = item.id.split("-");
+        if (!sellerId || !productName) {
+            throw new Error(`Invalid item ID in cart: ${item.id}`);
+        }
+        await purchaseItem(sellerId, productName, item.quantity);
+      }
+      clearCart();
+      alert("Checkout successful! Your order has been placed.");
+    } catch (error: any) {
+      alert(`Checkout failed: ${error.message}`);
+    }
   };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{ cart, addToCart, removeFromCart, clearCart, checkout }} // Add checkout to value
     >
       {children}
     </CartContext.Provider>

@@ -1,15 +1,16 @@
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description: string;
   image: string;
-  rarity: "common" | "rare" | "epic" | "legendary";
+  rarity: "common" | "uncommon" | "rare" | "epic" | "legendary";
   seller: string;
+  stock: number;
 }
 
 export interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;

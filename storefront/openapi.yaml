@@ -163,13 +163,10 @@ components:
     Item:
       type: object
       required:
-        - id
         - name
         - price
         - stock
       properties:
-        id:
-          type: string
         name:
           type: string
           description: Display name of the item.
@@ -179,9 +176,6 @@ components:
           description: Type of the item
           enum: [charm, weapon, potion]
           example: charm
-        image:
-          type: string
-          description: URL for the product image
         description:
           type: string
           description: Short description of the item.

@@ -31,6 +31,9 @@ type Item struct {
 	Description *string `json:"description,omitempty"`
 	Id          string  `json:"id"`
 
+	// Image URL for the product image
+	Image *string `json:"image,omitempty"`
+
 	// Name Display name of the item.
 	Name string `json:"name"`
 

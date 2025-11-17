@@ -41,6 +41,7 @@ func ProductToItem(product db.Product) gen.Item {
 		Description: &product.Description,
 		Name:        product.Name,
 		Price:       float32(product.Price),
+		Image:       &product.Image,
 		Type:        &itemType,
 		Rarity:      &rarity,
 		Stock:       1,

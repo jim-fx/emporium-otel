@@ -4,38 +4,43 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
+} from "./ui/sheet.tsx";
 import { Button } from "./ui/Button.tsx";
 import { ShoppingCart, Trash2 } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { ScrollArea } from "./ui/scroll-area";
-import { Separator } from "./ui/separator";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { Badge } from "./ui/badge.tsx";
+import { ScrollArea } from "./ui/scroll-area.tsx";
+import { Separator } from "./ui/separator.tsx";
+import { CartItem } from "../lib/data.ts";
+import { useCart } from "../context/CartContext.tsx";
+import { useRouter } from "next/navigation"; // Import useRouter
+import { useState } from "react"; // Import useState
 
 interface ShoppingCartDrawerProps {
   items: CartItem[];
-  onRemoveItem: (id: number) => void;
+  onRemoveItem: (id: string) => void;
   onClearCart: () => void;
 }
 
 export function ShoppingCartDrawer(
   { items, onRemoveItem, onClearCart }: ShoppingCartDrawerProps,
 ) {
+  const router = useRouter(); // Initialize useRouter
+  const [isSheetOpen, setIsSheetOpen] = useState(false); // State to control sheet open/close
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
 
+  const handleProceedToCheckout = () => {
+    router.push("/checkout");
+    setIsSheetOpen(false); // Close the sheet
+  };
+
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+      {/* Control sheet open state */}
       <SheetTrigger asChild>
         <Button
           variant="outline"
@@ -50,14 +55,18 @@ export function ShoppingCartDrawer(
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="bg-slate-900 border-l-2 border-amber-600/30 w-[400px]">
+      <SheetContent className="bg-slate-900 border-l-2 border-amber-600/30 w-[450px]">
+        {/* Increased width */}
         <SheetHeader>
-          <SheetTitle className="text-amber-400">Your Cart</SheetTitle>
+          <SheetTitle className="text-amber-400 text-2xl">Your Cart</SheetTitle>
+          {" "}
+          {/* Increased font size */}
         </SheetHeader>
         <div className="flex flex-col h-full mt-4">
           {items.length === 0
             ? (
-              <div className="flex-1 flex items-center justify-center text-slate-400">
+              <div className="flex-1 flex items-center justify-center text-slate-400 text-lg">
+                {/* Increased font size */}
                 Your cart is empty
               </div>
             )
@@ -68,21 +77,24 @@ export function ShoppingCartDrawer(
                     {items.map((item) => (
                       <div
                         key={item.id}
-                        className="flex gap-4 p-3 bg-slate-800 rounded-lg border border-amber-600/20"
+                        className="flex gap-4 p-4 bg-slate-800 rounded-lg border border-amber-600/20 items-center justify-between" // Added items-center and justify-between
                       >
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-16 h-16 object-cover rounded"
+                          className="w-20 h-20 object-cover rounded" // Increased image size
                         />
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-amber-400 text-sm truncate">
+                        <div className="flex-1 min-w-0 flex flex-col">
+                          {/* Added flex-col */}
+                          <h4 className="text-amber-400 text-base truncate">
+                            {/* Increased font size */}
                             {item.name}
                           </h4>
                           <p className="text-slate-400 text-sm">
                             Qty: {item.quantity}
                           </p>
-                          <p className="text-amber-300 text-sm">
+                          <p className="text-amber-300 text-base">
+                            {/* Increased font size */}
                             {item.price * item.quantity} gold
                           </p>
                         </div>
@@ -90,9 +102,10 @@ export function ShoppingCartDrawer(
                           size="sm"
                           variant="ghost"
                           onClick={() => onRemoveItem(item.id)}
-                          className="text-red-400 hover:text-red-300 hover:bg-red-950"
+                          className="text-red-400 hover:text-red-300 hover:bg-red-950 flex-shrink-0" // Added flex-shrink-0
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-5 h-5" />{" "}
+                          {/* Increased icon size */}
                         </Button>
                       </div>
                     ))}
@@ -101,17 +114,23 @@ export function ShoppingCartDrawer(
                 <Separator className="my-4 bg-amber-600/30" />
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-300">Total:</span>
-                    <span className="text-amber-300 text-xl">
+                    <span className="text-slate-300 text-lg">Total:</span>{" "}
+                    {/* Increased font size */}
+                    <span className="text-amber-300 text-2xl">
+                      {/* Increased font size */}
                       {totalPrice} gold
                     </span>
                   </div>
-                  <Button className="w-full bg-amber-600 hover:bg-amber-700 text-slate-900">
+                  <Button
+                    className="w-full bg-amber-600 hover:bg-amber-700 text-slate-900 text-lg py-3" // Increased font size and padding
+                    onClick={handleProceedToCheckout} // Call handleProceedToCheckout function
+                    disabled={items.length === 0} // Disable if cart is empty
+                  >
                     Proceed to Checkout
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full border-red-600 text-red-400 hover:bg-red-950"
+                    className="w-full border-red-600 text-red-400 hover:bg-red-950 text-lg py-3" // Increased font size and padding
                     onClick={onClearCart}
                   >
                     Clear Cart
