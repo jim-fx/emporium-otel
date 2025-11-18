@@ -22,7 +22,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <img src="/favicon.webp" alt="file" width="50" />
             <h1 className="text-gold text-shadow-lg">
-              Maxwell's Magical Emporium
+              Otellos Magical Emporium
             </h1>
           </div>
         </a>

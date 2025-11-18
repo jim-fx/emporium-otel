@@ -1,9 +1,8 @@
 "use client";
-
-import { Product } from "../lib/data";
-import { useCart } from "../context/CartContext";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/Button";
+import { Product } from "../lib/data.ts";
+import { useCart } from "../context/CartContext.tsx";
+import { Badge } from "./ui/badge.tsx";
+import { Button } from "./ui/Button.tsx";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 

@@ -13,6 +13,18 @@ interface ApiProduct {
   type: "charm" | "weapon" | "potion";
 }
 
+// From order-service
+interface ProductDetail {
+  id: string;
+  quantity: number;
+}
+
+interface OrderCreate {
+  user_id: string;
+  products: ProductDetail[];
+  total_price: number;
+}
+
 async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
   const seller = sellers.find((s) => s.id === sellerId);
   if (!seller) {
@@ -87,4 +99,19 @@ export async function purchaseItem(
     throw new Error(errorData.message || `Failed to purchase ${productName}`);
   }
   // Optionally, you could return the updated stock or other info from the response
+}
+
+export async function createOrder(order: OrderCreate): Promise<void> {
+    const response = await fetch(`/api/orders`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || `Failed to create order`);
+    }
 }

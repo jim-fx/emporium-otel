@@ -1,9 +1,15 @@
 "use client";
 
-import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import { Product, CartItem } from "../lib/data";
-import { purchaseItem } from "../lib/apiClient";
-import { getCookie, setCookie, eraseCookie } from "../lib/cookies"; // Import cookie functions
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { CartItem, Product } from "../lib/data";
+import { createOrder } from "../lib/apiClient";
+import { eraseCookie, getCookie, setCookie } from "../lib/cookies"; // Import cookie functions
 
 interface CartContextType {
   cart: CartItem[];
@@ -73,12 +79,30 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const checkout = async () => {
     try {
+      const userId = getCookie("userId");
+      if (!userId) {
+        throw new Error("User not found. Please refresh the page.");
+      }
+
+      const totalPrice = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
+
+      await createOrder({
+        user_id: userId,
+        products: cart.map((item) => ({
+          id: item.id,
+          quantity: item.quantity,
+        })),
+        total_price: totalPrice,
+      });
+
       for (const item of cart) {
         const [sellerId, productName] = item.id.split("-");
         if (!sellerId || !productName) {
-            throw new Error(`Invalid item ID in cart: ${item.id}`);
+          throw new Error(`Invalid item ID in cart: ${item.id}`);
         }
-        await purchaseItem(sellerId, productName, item.quantity);
       }
       clearCart();
       alert("Checkout successful! Your order has been placed.");

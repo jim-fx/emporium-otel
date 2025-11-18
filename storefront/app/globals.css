@@ -110,30 +110,33 @@ button.buy:hover {
   content: "";
   position: absolute;
   inset: -3px;
+  pointer-events: none;
 
   border-width: 40px;
   border-style: solid;
-  border-image-source: url('/wooden_frame.webp');
+  border-image-source: var(--wooden-frame, url('/wooden_frame.webp'));
   border-image-slice: 160 fill;
   border-image-repeat: stretch;
 }
 
 .bg-gold {
-  background: url("/textures/gold.webp") -6px -11px / 106%;
+  background: url("/textures/gold.webp");
 }
 
 .bg-rusty {
-  background: url("/textures/rusty.jpg");
+  background: url("/textures/rusty.webp");
 }
 
 .golden-frame {
   position: relative;
+  border: none;
 }
 
 .golden-frame::after {
   content: "";
   position: absolute;
   inset: 0px;
+  pointer-events: none;
 
   z-index: 1;
 

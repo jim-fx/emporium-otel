@@ -1,10 +1,8 @@
 "use client";
-import { Card } from "./ui/card.tsx";
 import { Badge } from "./ui/badge.tsx";
 import { useCart } from "../context/CartContext.tsx";
-import { Product } from "../lib/data";
+import { Product } from "../lib/data.ts";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Import useRouter
 
 interface ProductCardProps {
   product: Product;
@@ -29,21 +27,31 @@ const getGlowClass = (rarity: Product["rarity"]) => {
   }
 };
 
+const getFrameUrl = (name: string, rarity: Product["rarity"]) => {
+  if (rarity === "epic") {
+    return "url(/wooden_frame_rare.webp)";
+  }
+
+  if (rarity === "legendary") {
+    return "url(/golden_border.webp)";
+  }
+
+  const version = ["a", "b", "c", "d"][name.length % 4];
+
+  return `url(/wooden_frame_${version}.webp)`;
+};
+
 export function ProductCard({ product }: ProductCardProps) {
   const { name, price, description, image, rarity, seller } = product;
   const { addToCart } = useCart();
-  const router = useRouter(); // Initialize useRouter
-
-  const handleSellerClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent the outer Link from navigating
-    e.stopPropagation(); // Stop event propagation
-    router.push(`/seller/${seller}`);
-  };
 
   return (
     <div
+      style={{
+        "--wooden-frame": getFrameUrl(name, rarity),
+      }}
       className={`wooden-frame h-full flex flex-col 
-        text-card-foreground flex flex-col gap-6 rounded-xl border
+        text-card-foreground flex flex-col gap-6 rounded-xl
         ${getGlowClass(rarity)}
         `}
     >
@@ -75,12 +83,7 @@ export function ProductCard({ product }: ProductCardProps) {
           href={`/seller/${seller}`}
           className="text-amber-300"
         >
-          <span
-            onClick={handleSellerClick} // Use onClick handler
-            className="text-slate-500 text-xs hover:underline mb-2 cursor-pointer" // Added cursor-pointer
-          >
-            by {seller}
-          </span>
+          by {seller}
         </Link>
         <p className="text-slate-400 text-sm mb-4 flex-grow">
           {description.slice(0, 100)}...
@@ -90,6 +93,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {price} <img src="/coin.webp" className="w-6 h-6" />
           </span>
           <button
+            type="submit"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
