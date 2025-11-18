@@ -6,6 +6,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
         unzip \
+        libzip-dev \
         libpq-dev \
         libicu-dev \
     && rm -rf /var/lib/apt/lists/*
@@ -19,5 +20,8 @@ RUN docker-php-ext-install \
     opcache
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN mkdir -p /var/cache && chown www-data:www-data /var/cache
+ENV APP_CACHE_DIR=/var/cache
 
 WORKDIR /var/www/html
