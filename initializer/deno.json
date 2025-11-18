@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "generate-images": "deno run --env-file=../.env -A main.ts"
+    "seed-db": "deno run -A seed-db.ts",
+    "generate-images": "deno run -A generate-images.ts"
   },
   "imports": {
     "@openai/openai": "jsr:@openai/openai@^6.9.0",

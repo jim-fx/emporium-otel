@@ -1,4 +1,4 @@
-import postgres from "npm:postgres";
+import postgres from "postgres";
 
 interface Product {
   name: string;
@@ -9,7 +9,7 @@ interface Product {
 }
 
 const sql = postgres({
-  host: "localhost", // "host" is the option postgres() expects
+  host: "db", // "host" is the option postgres() expects
   port: 5432,
   database: "app",
   username: "postgres",
@@ -28,6 +28,19 @@ async function main() {
       price       INTEGER      NOT NULL,
       image       VARCHAR(255) NOT NULL,
       description TEXT
+    );
+  `;
+
+  // setup order table
+  await sql`DROP TABLE IF EXISTS orders;`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS orders (
+      id          UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id     VARCHAR(255) NOT NULL,
+      products    JSONB        NOT NULL,
+      total_price INTEGER      NOT NULL,
+      created_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+      updated_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW()
     );
   `;
 
