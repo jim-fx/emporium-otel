@@ -1,4 +1,4 @@
-name: Otel Item Shop
+name: otel-shop
 services:
   db:
     image: postgres:18
@@ -8,9 +8,28 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: app
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql
+
+  initializer:
+    image: denoland/deno:2.5.6
+    env_file: .env
+    working_dir: /app
+    volumes:
+      - ./initializer:/app
+    depends_on:
+      - db
+    restart: on-failure
+    command: sh -c "deno task seed-db"
+
+  rabbitmq:
+    image: rabbitmq:4.2-management
+    ports:
+      - "5672:5672" # for amqp
+      - "15672:15672" # for management ui
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
 
   potion-seller:
       image: cosmtrek/air
@@ -47,19 +66,52 @@ services:
       - ./charm-seller:/var/www/html
       - ./docker/charm-seller/apache/app.conf:/etc/apache2/sites-enabled/000-default.conf
 
+  order-service:
+    image: node:24-alpine
+    env_file: .env
+    working_dir: /app
+    ports:
+      - 8084:80
+    volumes:
+      - ./order-service:/app
+      - /app/node_modules
+    command: sh -c "npm i -g pnpm && pnpm install && pnpm run start:dev"
+    depends_on:
+      - rabbitmq
+
+  order-worker:
+    build:
+      context: ./order-worker
+    env_file: .env
+    volumes:
+      - ./order-worker/src:/app/src
+      - ./order-worker/requirements.txt:/app/requirements.txt
+    command: sh -c "pip install -r requirements.txt && python -u src/worker.py"
+    depends_on:
+      - db
+      - rabbitmq
+      - smtp4dev
+
   storefront:
     image: node:24-alpine
     working_dir: /app
     command: sh -c "npm i -g pnpm && pnpm install && pnpm run dev"
     env_file: .env
     ports:
-      - 8080:3000
+      - "8080:3000"
     volumes:
       - ./storefront:/app
       - node-modules:/app/node_modules
+
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    ports:
+      - "8085:80" # Web interface
+      - "2525:25" # SMTP
 
 volumes:
     go-cache:
     deno-cache:
     db-data:
+    rabbitmq-data:
     node-modules:
