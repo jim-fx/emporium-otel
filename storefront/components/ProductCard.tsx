@@ -87,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </p>
         <div className="flex items-center justify-between mt-auto">
           <span className="font-medieval text-2xl flex items-center gap-2 text-amber-300">
-            {price} <img src="/coin.png" className="w-6 h-6" />
+            {price} <img src="/coin.webp" className="w-6 h-6" />
           </span>
           <button
             onClick={(e) => {
@@ -97,7 +97,7 @@ export function ProductCard({ product }: ProductCardProps) {
             }}
             className="buy h-10 z-10"
           >
-            <img src="/button.png" style={{ height: "100%" }} />
+            <img src="/button.webp" style={{ height: "100%" }} />
           </button>
         </div>
       </div>

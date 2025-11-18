@@ -47,7 +47,7 @@ export default function CheckoutPage() {
         )
         : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="md:col-span-2 bg-slate-900 p-6 rounded-lg border border-amber-600/30">
+            <div className="relative wooden-frame md:col-span-2 bg-slate-900 p-12 rounded-lg border border-amber-600/30">
               <h2 className="text-2xl font-bold text-amber-400 mb-4">
                 Order Summary
               </h2>
@@ -86,7 +86,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="md:col-span-1 bg-slate-900 p-6 rounded-lg border border-amber-600/30 h-fit">
+            <div className="wooden-frame bg-gold md:col-span-1 bg-slate-900 p-6 rounded-lg h-fit">
               <h2 className="text-2xl font-bold text-amber-400 mb-4">
                 Order Total
               </h2>

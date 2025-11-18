@@ -11,7 +11,7 @@ export function SellerCard(
   { name, description, character }: SellerCardProps,
 ) {
   return (
-    <Card className="gold-bg mt-20 p-6 border-2 border-amber-600/30 bg-gradient-to-br from-slate-800 to-slate-900 py-12">
+    <Card className="bg-rusty mt-20 p-6 border-2 border-amber-600/30 py-12">
       <div className="flex items-center gap-12">
         <div className="flex-shrink-0 -mt-12 -mb-15">
           <img

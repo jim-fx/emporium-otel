@@ -61,7 +61,7 @@ export function ProductDetails(
           <p className="text-slate-300 mb-6">{product.description}</p>
           <div className="flex items-center justify-between mb-6">
             <span className="font-medieval text-4xl flex items-center gap-2 text-amber-300">
-              {product.price} <img src="/coin.png" className="w-8 h-8" />
+              {product.price} <img src="/coin.webp" className="w-8 h-8" />
             </span>
             <span className="text-slate-400">
               {product.stock} in stock

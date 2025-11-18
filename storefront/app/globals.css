@@ -93,6 +93,7 @@ button.buy:hover {
 }
 
 .wooden-frame {
+  position: relative;
   padding: 40px;
   border: none;
   background: url("/textures/fine_wood_dark.jpg");
@@ -108,20 +109,23 @@ button.buy:hover {
 
   border-width: 40px;
   border-style: solid;
-  border-image-source: url('/wooden_frame.png');
+  border-image-source: url('/wooden_frame.webp');
   border-image-slice: 160 fill;
   border-image-repeat: stretch;
 }
 
-.gold-bg {
+.bg-gold {
+  background: url("/textures/gold.webp") -6px -11px / 106%;
+}
+
+.bg-rusty {
   background: url("/textures/rusty.jpg");
 }
 
-.checkout-button {
-  background: url("/textures/gold.png") -6px -11px / 106%;
+.golden-frame {
   border-width: 20px;
   border-style: solid;
-  border-image-source: url('/golden_border.png');
+  border-image-source: url('/golden_border.webp');
   border-image-slice: 160 fill;
   border-image-repeat: stretch;
 }

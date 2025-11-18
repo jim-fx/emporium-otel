@@ -24,18 +24,23 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
     throw new Error(`Failed to fetch products from ${seller.name}`);
   }
 
-  const data: { items: ApiProduct[] } = await response.json();
-
-  return data.items.map((apiProduct) => ({
-    id: apiProduct.id,
-    name: apiProduct.name,
-    price: apiProduct.price,
-    description: apiProduct.description,
-    rarity: apiProduct.rarity,
-    stock: apiProduct.stock,
-    seller: seller.id,
-    image: apiProduct.image || `/products/${apiProduct.name}.png`,
-  }));
+  try {
+    const data: { items: ApiProduct[] } = await response.json();
+    return data.items.map((apiProduct) => ({
+      id: apiProduct.id,
+      name: apiProduct.name,
+      price: apiProduct.price,
+      description: apiProduct.description,
+      rarity: apiProduct.rarity,
+      stock: apiProduct.stock,
+      seller: seller.id,
+      image: apiProduct.image || `/products/${apiProduct.name}.png`,
+    }));
+  } catch (e) {
+    throw new Error(
+      `Failed to parse products from ${seller.url}, ${e?.message}`,
+    );
+  }
 }
 
 export async function listProducts(): Promise<Product[]> {
