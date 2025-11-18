@@ -3,6 +3,7 @@ import { Header } from "../components/Header.tsx";
 import "./globals.css";
 
 import { CartProvider } from "../context/CartContext.tsx";
+import { UserInitializer } from "../components/UserInitializer.tsx";
 
 export const metadata: Metadata = {
   title: "Maxwell's Magical Emporium",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/favicon.png" />
       </head>
       <body>
+        <UserInitializer />
         <CartProvider>
           <Header />
           {children}

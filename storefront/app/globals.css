@@ -11,6 +11,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --gold: #e29904;
 }
 
 @theme inline {
@@ -43,9 +44,12 @@ header {
 h1 {
   font-family: MedievalSharp !important;
   font-size: 2em;
-  color: #e29904;
+  color: var(--gold);
 }
 
+.text-gold {
+  color: var(--gold);
+}
 
 header::before {
   content: "";
@@ -123,6 +127,16 @@ button.buy:hover {
 }
 
 .golden-frame {
+  position: relative;
+}
+
+.golden-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0px;
+
+  z-index: 1;
+
   border-width: 20px;
   border-style: solid;
   border-image-source: url('/golden_border.webp');

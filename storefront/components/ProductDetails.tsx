@@ -37,11 +37,13 @@ export function ProductDetails(
         </Link>
       </div>
       <div className="grid grid-cols-1 justify-items-end md:justify-items-center md:grid-cols-2 gap-8 items-center">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-fit h-full max-h-[70vh] object-cover rounded-xl"
-        />
+        <span className="golden-frame">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-fit h-full max-h-[70vh] object-cover"
+          />
+        </span>
         <div className="text-white">
           <h1 className="text-4xl font-bold text-amber-400 mb-2 font-medieval">
             {product.name}
