@@ -27,6 +27,15 @@ interface OrderCreate {
   total_price: number;
 }
 
+interface ApiOrder {
+  id: string;
+  userId: string;
+  products: string[];
+  totalPrice: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
   const seller = sellers.find((s) => s.id === sellerId);
   if (!seller) {
@@ -117,4 +126,15 @@ export async function createOrder(order: OrderCreate): Promise<void> {
     const errorData = await response.json();
     throw new Error(errorData.detail || `Failed to create order`);
   }
+}
+
+export async function getUserOrders(userId: string): Promise<ApiOrder[]> {
+  const response = await fetch(`/api/orders?userId=${userId}`);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.detail || `Failed to fetch orders for user ${userId}`);
+  }
+
+  return response.json();
 }

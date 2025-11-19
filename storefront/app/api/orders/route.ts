@@ -25,3 +25,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ detail: error.message }, { status: 500 });
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+  } catch (error: any) {
+    console.log({ error });
+    return NextResponse.json({ detail: error.message }, { status: 500 });
+  }
+}

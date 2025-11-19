@@ -1,4 +1,5 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { ProductDetailDto } from "src/orders/dto/create-order.dto";
 
 @Entity({
   tableName: "orders",
@@ -10,15 +11,12 @@ export class Order {
   @Property()
   userId: string;
 
-  @Property()
-  products: string[];
+  @Property({ type: "json" })
+  products: ProductDetailDto[];
 
   @Property()
   totalPrice: number;
 
   @Property()
   createdAt: Date;
-
-  @Property()
-  updatedAt: Date;
 }

@@ -1,10 +1,18 @@
-import { Body, Controller, HttpException, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  Post,
+} from "@nestjs/common";
 import { AmqpConnection } from "@golevelup/nestjs-rabbitmq";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Product } from "src/entities/Products";
 import { EntityRepository } from "@mikro-orm/core";
 import { Order } from "src/entities/Orders";
+import { randomUUID } from "crypto";
 
 @Controller("orders")
 export class OrdersController {
@@ -46,6 +54,15 @@ export class OrdersController {
       product.quantity -= orderQuantity;
     }
 
+    const order = new Order();
+    order.id = randomUUID();
+    order.userId = createOrderDto.user_id;
+    order.products = createOrderDto.products;
+    order.createdAt = new Date();
+    order.totalPrice = createOrderDto.total_price;
+
+    await this.orderRepository.insert(order);
+
     // Update the products quantities
     for (const [_, product] of productMap) {
       this.productRepository.upsert(product);
@@ -53,5 +70,11 @@ export class OrdersController {
 
     this.amqpConnection.publish("", "order_queue", createOrderDto);
     return { message: "Order received and is being processed." };
+  }
+
+  @Get("user/:userId")
+  async getOrdersByUserId(@Param("userId") userId: string) {
+    const orders = await this.orderRepository.find({ userId });
+    return orders;
   }
 }

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCookie } from "../lib/clientCookies.ts";
 import { ShoppingCartDrawer } from "./ShoppingCartDrawer.tsx";
@@ -28,9 +29,11 @@ export function Header() {
         </a>
         <div className="flex items-center gap-4">
           {username && (
-            <div className="text-gold text-shadow-sm flex items-center gap-2">
-              <span>Welcome, {username}</span>
-            </div>
+            <Link href="/profile">
+              <div className="text-gold text-shadow-sm flex items-center gap-2 cursor-pointer hover:underline">
+                <span>Welcome, {username}</span>
+              </div>
+            </Link>
           )}
           <ShoppingCartDrawer
             items={cart}
