@@ -81,10 +81,6 @@ exporters:
     endpoint: http://loki:3100/otlp
     tls:
       insecure: true
-  otlp/profiles:
-    endpoint: http://pyroscope:4040
-    tls:
-      insecure: true
 
 service:
   extensions: [health_check]
@@ -101,6 +97,3 @@ service:
       receivers: [filelog/docker]
       processors: [batch]
       exporters: [otlphttp/logs]
-    profiles:
-      receivers: [otlp]
-      exporters: [otlp/profiles]

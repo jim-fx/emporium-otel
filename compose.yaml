@@ -63,6 +63,7 @@ services:
     volumes:
       - ./storefront:/app
       - node-modules:/app/node_modules
+    command: sh -c "pnpm install && pnpm run dev"
 
   potion-seller:
     <<: *default-service
@@ -104,6 +105,7 @@ services:
     build:
       context: ./order-service
     working_dir: /app
+    command: sh -c "pnpm i && pnpm run start:dev"
     ports:
       - 8084:80
     volumes:
@@ -132,15 +134,13 @@ services:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./docker/otel-collector/config.yaml:/etc/otel-collector/config.yaml
-    command: |
-      --config=/etc/otel-collector/config.yaml
-      --feature-gates service.profilesSupport
+    command: --config=/etc/otel-collector/config.yaml
 
   init:
     image: alpine:latest
     user: root
     command: >
-      sh -c "mkdir -p /data/prometheus /data/loki /data/tempo /data/pyroscope /data/grafana &&
+      sh -c "mkdir -p /data/prometheus /data/loki /data/tempo /data/grafana &&
              chown -R 65534:65534 /data/prometheus &&
              chown -R 10001:10001 /data/loki &&
              chown -R 10001:10001 /data/tempo &&
@@ -190,18 +190,6 @@ services:
       - observability_storage:/data
     command: ["-config.file=/etc/tempo.yaml"]
     restart: unless-stopped
-    depends_on:
-      init:
-        condition: service_completed_successfully
-
-  pyroscope:
-    image: grafana/pyroscope:latest
-    profiles:
-      - otel
-    volumes:
-      - ./docker/pyroscope/config.yaml:/etc/pyroscope/server.yaml
-      - observability_storage:/data
-    command: ["server"]
     depends_on:
       init:
         condition: service_completed_successfully
