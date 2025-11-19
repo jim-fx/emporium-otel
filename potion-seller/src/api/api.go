@@ -1,5 +1,5 @@
-//go:generate oapi-codegen --config=./generator-models.yaml ../../openapi.yaml
-//go:generate oapi-codegen --config=./generator-routes.yaml ../../openapi.yaml
+//go:generate go tool oapi-codegen --config=./generator-models.yaml ../../openapi.yaml
+//go:generate go tool oapi-codegen --config=./generator-routes.yaml ../../openapi.yaml
 package api
 
 import (

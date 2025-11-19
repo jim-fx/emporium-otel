@@ -9,68 +9,68 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class ItemController extends AbstractController
+final class ProductController extends AbstractController
 {
     public function __construct(private readonly ProductRepository $productRepository)
     {
     }
 
-    #[Route('/items', name: 'get_items', methods: ['GET'])]
-    public function getItems(Request $request): JsonResponse
+    #[Route('/products', name: 'get_products', methods: ['GET'])]
+    public function getProducts(Request $request): JsonResponse
     {
         $limit = $request->query->getInt('limit', 20);
         $offset = $request->query->getInt('offset', 0);
 
-        $items = $this->productRepository->findBy(['type' => 'charm'], null, $limit, $offset);
+        $products = $this->productRepository->findBy(['type' => 'charm'], null, $limit, $offset);
         $total = $this->productRepository->count(['type' => 'charm']);
 
         return $this->json([
-            'items' => $items,
+            'products' => $products,
             'total' => $total,
             'limit' => $limit,
             'offset' => $offset,
         ], 200, [], ['groups' => 'product:read']);
     }
 
-    #[Route('/items/{itemId}', name: 'get_item', methods: ['GET'])]
-    public function getItem(string $itemId): JsonResponse
+    #[Route('/products/{productId}', name: 'get_item', methods: ['GET'])]
+    public function getProduct(string $productId): JsonResponse
     {
-        $item = $this->productRepository->find($itemId);
+        $item = $this->productRepository->find($productId);
 
         if (!$item) {
-            return $this->json(['message' => 'Item not found'], 404);
+            return $this->json(['message' => 'Product not found'], 404);
         }
 
         return $this->json($item, 200, [], ['groups' => 'product:read']);
     }
 
 
-    #[Route('/items/{itemId}/stock', name: 'get_item_stock', methods: ['GET'])]
-    public function getItemStock(string $itemId): JsonResponse
+    #[Route('/products/{productId}/stock', name: 'get_item_stock', methods: ['GET'])]
+    public function getProductStock(string $productId): JsonResponse
     {
         // TODO: Implement stock management.
         // This is a dummy response as the 'stock' column is not in the 'products' table.
-        $item = $this->productRepository->find($itemId);
+        $item = $this->productRepository->find($productId);
 
         if (!$item) {
-            return $this->json(['message' => 'Item not found'], 404);
+            return $this->json(['message' => 'Product not found'], 404);
         }
 
         return $this->json([
-            'itemId' => $itemId,
+            'productId' => $productId,
             'remaining' => 0, // Dummy value
         ]);
     }
 
-    #[Route('/items/{itemId}/purchase', name: 'purchase_item', methods: ['POST'])]
-    public function purchaseItem(string $itemId, Request $request): JsonResponse
+    #[Route('/products/{productId}/purchase', name: 'purchase_item', methods: ['POST'])]
+    public function purchaseProduct(string $productId, Request $request): JsonResponse
     {
         // TODO: Implement stock management.
         // This is a dummy response as the 'stock' column is not in the 'products' table.
-        $item = $this->productRepository->find($itemId);
+        $item = $this->productRepository->find($productId);
 
         if (!$item) {
-            return $this->json(['message' => 'Item not found'], 404);
+            return $this->json(['message' => 'Product not found'], 404);
         }
 
         $quantity = $request->toArray()['quantity'] ?? 0;
@@ -80,7 +80,7 @@ final class ItemController extends AbstractController
         }
 
         return $this->json([
-            'itemId' => $itemId,
+            'productId' => $productId,
             'purchased' => $quantity,
             'remaining' => 0, // Dummy value
         ]);

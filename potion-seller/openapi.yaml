@@ -8,14 +8,14 @@ servers:
   - url: https://api.magic-shop.example.com
 
 paths:
-  /items:
+  /products:
     get:
-      summary: List magical items
-      description: Returns a paginated list of magical items in the shop.
+      summary: List magical products
+      description: Returns a paginated list of magical products in the shop.
       parameters:
         - name: limit
           in: query
-          description: Maximum number of items to return.
+          description: Maximum number of products to return.
           required: false
           schema:
             type: integer
@@ -24,7 +24,7 @@ paths:
             default: 20
         - name: offset
           in: query
-          description: Number of items to skip before starting to collect the result set.
+          description: Number of products to skip before starting to collect the result set.
           required: false
           schema:
             type: integer
@@ -32,89 +32,89 @@ paths:
             default: 0
       responses:
         '200':
-          description: List of magical items.
+          description: List of magical products.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  items:
+                  products:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Item'
+                      $ref: '#/components/schemas/Product'
                   total:
                     type: integer
-                    description: Total number of items available.
+                    description: Total number of products available.
                   limit:
                     type: integer
                   offset:
                     type: integer
 
-  /items/{itemId}:
+  /products/{productId}:
     get:
-      summary: Get a magical item
-      description: Returns details for a single magical item, including stock level.
+      summary: Get a magical product
+      description: Returns details for a single magical product, including stock level.
       parameters:
-        - name: itemId
+        - name: productId
           in: path
           required: true
-          description: Unique identifier of the item.
+          description: Unique identifier of the product.
           schema:
             type: string
       responses:
         '200':
-          description: Magical item details.
+          description: Magical product details.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Item'
+                $ref: '#/components/schemas/Product'
         '404':
-          description: Item not found.
+          description: product not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /items/{itemId}/stock:
+  /products/{productId}/stock:
     get:
-      summary: Get remaining stock for an item
-      description: Returns how many units of the given magical item are left.
+      summary: Get remaining stock for an product
+      description: Returns how many units of the given magical product are left.
       parameters:
-        - name: itemId
+        - name: productId
           in: path
           required: true
-          description: Unique identifier of the item.
+          description: Unique identifier of the product.
           schema:
             type: string
       responses:
         '200':
-          description: Remaining stock for the item.
+          description: Remaining stock for the product.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  itemId:
+                  productId:
                     type: string
                   remaining:
                     type: integer
                     description: Units left in stock.
         '404':
-          description: Item not found.
+          description: product not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /items/{itemId}/purchase:
+  /products/{productId}/purchase:
     post:
-      summary: Buy a magical item
-      description: Attempts to purchase one or more units of an item and returns the updated stock level.
+      summary: Buy a magical product
+      description: Attempts to purchase one or more units of an product and returns the updated stock level.
       parameters:
-        - name: itemId
+        - name: productId
           in: path
           required: true
-          description: Unique identifier of the item.
+          description: Unique identifier of the product.
           schema:
             type: string
       requestBody:
@@ -138,7 +138,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  itemId:
+                  productId:
                     type: string
                   purchased:
                     type: integer
@@ -146,13 +146,13 @@ paths:
                     type: integer
                     description: Units left in stock after the purchase.
         '400':
-          description: Invalid request (e.g. quantity too large or item out of stock).
+          description: Invalid request (e.g. quantity too large or product out of stock).
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '404':
-          description: Item not found.
+          description: product not found.
           content:
             application/json:
               schema:
@@ -160,7 +160,7 @@ paths:
 
 components:
   schemas:
-    Item:
+    Product:
       type: object
       required:
         - id
@@ -172,11 +172,11 @@ components:
           type: string
         name:
           type: string
-          description: Display name of the item.
+          description: Display name of the product.
           example: Elder Wand
         type:
           type: string
-          description: Type of the item
+          description: Type of the product
           enum: [charm, weapon, potion]
           example: charm
         image:
@@ -184,21 +184,21 @@ components:
           description: URL for the product image
         description:
           type: string
-          description: Short description of the item.
+          description: Short description of the product.
           example: A legendary wand said to be unbeatable in duels.
         price:
           type: number
           format: float
           description: Price per unit.
           example: 249.99
-        stock:
+        quantity:
           type: integer
           description: Units currently in stock.
           example: 3
         rarity:
           type: string
-          description: Rarity classification of the item.
-          enum: [common, uncommon, rare, epic, legendary]
+          description: Rarity classification of the product.
+          enum: [common, rare, epic, legendary]
           example: legendary
 
     Error:
@@ -209,5 +209,5 @@ components:
           example: OUT_OF_STOCK
         message:
           type: string
-          example: Not enough items in stock to fulfill this purchase.
+          example: Not enough products in stock to fulfill this purchase.
 

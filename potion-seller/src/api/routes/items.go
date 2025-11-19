@@ -7,38 +7,38 @@ import (
 	"github.com/jim-fx/otel-shop-api/src/mapper"
 )
 
-// GetItems implements gen.StrictServerInterface.
-func (c Core) GetItems(ctx context.Context, request gen.GetItemsRequestObject) (gen.GetItemsResponseObject, error) {
+// GetProducts implements gen.StrictServerInterface.
+func (c Core) GetProducts(ctx context.Context, request gen.GetProductsRequestObject) (gen.GetProductsResponseObject, error) {
 	products, err := c.DB.ListProducts(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	items := mapper.ProductsToItems(products)
+	res := mapper.ProductsToItems(products)
 
-	return gen.GetItems200JSONResponse{
-		Items: &items,
+	return gen.GetProducts200JSONResponse{
+		Products: &res,
 	}, nil
 }
 
-// GetItemsItemId implements gen.StrictServerInterface.
-func (c Core) GetItemsItemId(ctx context.Context, request gen.GetItemsItemIdRequestObject) (gen.GetItemsItemIdResponseObject, error) {
-	product, err := c.DB.GetProductByName(ctx, request.ItemId)
+// GetProductsProductId implements gen.StrictServerInterface.
+func (c Core) GetProductsProductId(ctx context.Context, request gen.GetProductsProductIdRequestObject) (gen.GetProductsProductIdResponseObject, error) {
+	product, err := c.DB.GetProductByName(ctx, request.ProductId)
 	if err != nil {
 		return nil, err
 	}
 
 	item := mapper.ProductToItem(*product)
 
-	return gen.GetItemsItemId200JSONResponse(item), nil
+	return gen.GetProductsProductId200JSONResponse(item), nil
 }
 
-// GetItemsItemIdStock implements gen.StrictServerInterface.
-func (c Core) GetItemsItemIdStock(ctx context.Context, request gen.GetItemsItemIdStockRequestObject) (gen.GetItemsItemIdStockResponseObject, error) {
+// GetProductsProductIdStock implements gen.StrictServerInterface.
+func (c Core) GetProductsProductIdStock(ctx context.Context, request gen.GetProductsProductIdStockRequestObject) (gen.GetProductsProductIdStockResponseObject, error) {
 	panic("unimplemented")
 }
 
-// PostItemsItemIdPurchase implements gen.StrictServerInterface.
-func (c Core) PostItemsItemIdPurchase(ctx context.Context, request gen.PostItemsItemIdPurchaseRequestObject) (gen.PostItemsItemIdPurchaseResponseObject, error) {
+// PostProductsProductIdPurchase implements gen.StrictServerInterface.
+func (c Core) PostProductsProductIdPurchase(ctx context.Context, request gen.PostProductsProductIdPurchaseRequestObject) (gen.PostProductsProductIdPurchaseResponseObject, error) {
 	panic("unimplemented")
 }

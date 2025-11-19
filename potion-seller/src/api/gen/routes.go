@@ -16,18 +16,18 @@ import (
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// List magical items
-	// (GET /items)
-	GetItems(c *gin.Context, params GetItemsParams)
-	// Get a magical item
-	// (GET /items/{itemId})
-	GetItemsItemId(c *gin.Context, itemId string)
-	// Buy a magical item
-	// (POST /items/{itemId}/purchase)
-	PostItemsItemIdPurchase(c *gin.Context, itemId string)
-	// Get remaining stock for an item
-	// (GET /items/{itemId}/stock)
-	GetItemsItemIdStock(c *gin.Context, itemId string)
+	// List magical products
+	// (GET /products)
+	GetProducts(c *gin.Context, params GetProductsParams)
+	// Get a magical product
+	// (GET /products/{productId})
+	GetProductsProductId(c *gin.Context, productId string)
+	// Buy a magical product
+	// (POST /products/{productId}/purchase)
+	PostProductsProductIdPurchase(c *gin.Context, productId string)
+	// Get remaining stock for an product
+	// (GET /products/{productId}/stock)
+	GetProductsProductIdStock(c *gin.Context, productId string)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -39,13 +39,13 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(c *gin.Context)
 
-// GetItems operation middleware
-func (siw *ServerInterfaceWrapper) GetItems(c *gin.Context) {
+// GetProducts operation middleware
+func (siw *ServerInterfaceWrapper) GetProducts(c *gin.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params GetItemsParams
+	var params GetProductsParams
 
 	// ------------- Optional query parameter "limit" -------------
 
@@ -70,20 +70,20 @@ func (siw *ServerInterfaceWrapper) GetItems(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetItems(c, params)
+	siw.Handler.GetProducts(c, params)
 }
 
-// GetItemsItemId operation middleware
-func (siw *ServerInterfaceWrapper) GetItemsItemId(c *gin.Context) {
+// GetProductsProductId operation middleware
+func (siw *ServerInterfaceWrapper) GetProductsProductId(c *gin.Context) {
 
 	var err error
 
-	// ------------- Path parameter "itemId" -------------
-	var itemId string
+	// ------------- Path parameter "productId" -------------
+	var productId string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "itemId", c.Param("itemId"), &itemId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "productId", c.Param("productId"), &productId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter itemId: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter productId: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -94,20 +94,20 @@ func (siw *ServerInterfaceWrapper) GetItemsItemId(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetItemsItemId(c, itemId)
+	siw.Handler.GetProductsProductId(c, productId)
 }
 
-// PostItemsItemIdPurchase operation middleware
-func (siw *ServerInterfaceWrapper) PostItemsItemIdPurchase(c *gin.Context) {
+// PostProductsProductIdPurchase operation middleware
+func (siw *ServerInterfaceWrapper) PostProductsProductIdPurchase(c *gin.Context) {
 
 	var err error
 
-	// ------------- Path parameter "itemId" -------------
-	var itemId string
+	// ------------- Path parameter "productId" -------------
+	var productId string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "itemId", c.Param("itemId"), &itemId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "productId", c.Param("productId"), &productId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter itemId: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter productId: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -118,20 +118,20 @@ func (siw *ServerInterfaceWrapper) PostItemsItemIdPurchase(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostItemsItemIdPurchase(c, itemId)
+	siw.Handler.PostProductsProductIdPurchase(c, productId)
 }
 
-// GetItemsItemIdStock operation middleware
-func (siw *ServerInterfaceWrapper) GetItemsItemIdStock(c *gin.Context) {
+// GetProductsProductIdStock operation middleware
+func (siw *ServerInterfaceWrapper) GetProductsProductIdStock(c *gin.Context) {
 
 	var err error
 
-	// ------------- Path parameter "itemId" -------------
-	var itemId string
+	// ------------- Path parameter "productId" -------------
+	var productId string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "itemId", c.Param("itemId"), &itemId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "productId", c.Param("productId"), &productId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter itemId: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter productId: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -142,7 +142,7 @@ func (siw *ServerInterfaceWrapper) GetItemsItemIdStock(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetItemsItemIdStock(c, itemId)
+	siw.Handler.GetProductsProductIdStock(c, productId)
 }
 
 // GinServerOptions provides options for the Gin server.
@@ -172,129 +172,129 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 		ErrorHandler:       errorHandler,
 	}
 
-	router.GET(options.BaseURL+"/items", wrapper.GetItems)
-	router.GET(options.BaseURL+"/items/:itemId", wrapper.GetItemsItemId)
-	router.POST(options.BaseURL+"/items/:itemId/purchase", wrapper.PostItemsItemIdPurchase)
-	router.GET(options.BaseURL+"/items/:itemId/stock", wrapper.GetItemsItemIdStock)
+	router.GET(options.BaseURL+"/products", wrapper.GetProducts)
+	router.GET(options.BaseURL+"/products/:productId", wrapper.GetProductsProductId)
+	router.POST(options.BaseURL+"/products/:productId/purchase", wrapper.PostProductsProductIdPurchase)
+	router.GET(options.BaseURL+"/products/:productId/stock", wrapper.GetProductsProductIdStock)
 }
 
-type GetItemsRequestObject struct {
-	Params GetItemsParams
+type GetProductsRequestObject struct {
+	Params GetProductsParams
 }
 
-type GetItemsResponseObject interface {
-	VisitGetItemsResponse(w http.ResponseWriter) error
+type GetProductsResponseObject interface {
+	VisitGetProductsResponse(w http.ResponseWriter) error
 }
 
-type GetItems200JSONResponse struct {
-	Items  *[]Item `json:"items,omitempty"`
-	Limit  *int    `json:"limit,omitempty"`
-	Offset *int    `json:"offset,omitempty"`
+type GetProducts200JSONResponse struct {
+	Limit    *int       `json:"limit,omitempty"`
+	Offset   *int       `json:"offset,omitempty"`
+	Products *[]Product `json:"products,omitempty"`
 
-	// Total Total number of items available.
+	// Total Total number of products available.
 	Total *int `json:"total,omitempty"`
 }
 
-func (response GetItems200JSONResponse) VisitGetItemsResponse(w http.ResponseWriter) error {
+func (response GetProducts200JSONResponse) VisitGetProductsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetItemsItemIdRequestObject struct {
-	ItemId string `json:"itemId"`
+type GetProductsProductIdRequestObject struct {
+	ProductId string `json:"productId"`
 }
 
-type GetItemsItemIdResponseObject interface {
-	VisitGetItemsItemIdResponse(w http.ResponseWriter) error
+type GetProductsProductIdResponseObject interface {
+	VisitGetProductsProductIdResponse(w http.ResponseWriter) error
 }
 
-type GetItemsItemId200JSONResponse Item
+type GetProductsProductId200JSONResponse Product
 
-func (response GetItemsItemId200JSONResponse) VisitGetItemsItemIdResponse(w http.ResponseWriter) error {
+func (response GetProductsProductId200JSONResponse) VisitGetProductsProductIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetItemsItemId404JSONResponse Error
+type GetProductsProductId404JSONResponse Error
 
-func (response GetItemsItemId404JSONResponse) VisitGetItemsItemIdResponse(w http.ResponseWriter) error {
+func (response GetProductsProductId404JSONResponse) VisitGetProductsProductIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(404)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostItemsItemIdPurchaseRequestObject struct {
-	ItemId string `json:"itemId"`
-	Body   *PostItemsItemIdPurchaseJSONRequestBody
+type PostProductsProductIdPurchaseRequestObject struct {
+	ProductId string `json:"productId"`
+	Body      *PostProductsProductIdPurchaseJSONRequestBody
 }
 
-type PostItemsItemIdPurchaseResponseObject interface {
-	VisitPostItemsItemIdPurchaseResponse(w http.ResponseWriter) error
+type PostProductsProductIdPurchaseResponseObject interface {
+	VisitPostProductsProductIdPurchaseResponse(w http.ResponseWriter) error
 }
 
-type PostItemsItemIdPurchase200JSONResponse struct {
-	ItemId    *string `json:"itemId,omitempty"`
+type PostProductsProductIdPurchase200JSONResponse struct {
+	ProductId *string `json:"productId,omitempty"`
 	Purchased *int    `json:"purchased,omitempty"`
 
 	// Remaining Units left in stock after the purchase.
 	Remaining *int `json:"remaining,omitempty"`
 }
 
-func (response PostItemsItemIdPurchase200JSONResponse) VisitPostItemsItemIdPurchaseResponse(w http.ResponseWriter) error {
+func (response PostProductsProductIdPurchase200JSONResponse) VisitPostProductsProductIdPurchaseResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostItemsItemIdPurchase400JSONResponse Error
+type PostProductsProductIdPurchase400JSONResponse Error
 
-func (response PostItemsItemIdPurchase400JSONResponse) VisitPostItemsItemIdPurchaseResponse(w http.ResponseWriter) error {
+func (response PostProductsProductIdPurchase400JSONResponse) VisitPostProductsProductIdPurchaseResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(400)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type PostItemsItemIdPurchase404JSONResponse Error
+type PostProductsProductIdPurchase404JSONResponse Error
 
-func (response PostItemsItemIdPurchase404JSONResponse) VisitPostItemsItemIdPurchaseResponse(w http.ResponseWriter) error {
+func (response PostProductsProductIdPurchase404JSONResponse) VisitPostProductsProductIdPurchaseResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(404)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetItemsItemIdStockRequestObject struct {
-	ItemId string `json:"itemId"`
+type GetProductsProductIdStockRequestObject struct {
+	ProductId string `json:"productId"`
 }
 
-type GetItemsItemIdStockResponseObject interface {
-	VisitGetItemsItemIdStockResponse(w http.ResponseWriter) error
+type GetProductsProductIdStockResponseObject interface {
+	VisitGetProductsProductIdStockResponse(w http.ResponseWriter) error
 }
 
-type GetItemsItemIdStock200JSONResponse struct {
-	ItemId *string `json:"itemId,omitempty"`
+type GetProductsProductIdStock200JSONResponse struct {
+	ProductId *string `json:"productId,omitempty"`
 
 	// Remaining Units left in stock.
 	Remaining *int `json:"remaining,omitempty"`
 }
 
-func (response GetItemsItemIdStock200JSONResponse) VisitGetItemsItemIdStockResponse(w http.ResponseWriter) error {
+func (response GetProductsProductIdStock200JSONResponse) VisitGetProductsProductIdStockResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetItemsItemIdStock404JSONResponse Error
+type GetProductsProductIdStock404JSONResponse Error
 
-func (response GetItemsItemIdStock404JSONResponse) VisitGetItemsItemIdStockResponse(w http.ResponseWriter) error {
+func (response GetProductsProductIdStock404JSONResponse) VisitGetProductsProductIdStockResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(404)
 
@@ -303,18 +303,18 @@ func (response GetItemsItemIdStock404JSONResponse) VisitGetItemsItemIdStockRespo
 
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
-	// List magical items
-	// (GET /items)
-	GetItems(ctx context.Context, request GetItemsRequestObject) (GetItemsResponseObject, error)
-	// Get a magical item
-	// (GET /items/{itemId})
-	GetItemsItemId(ctx context.Context, request GetItemsItemIdRequestObject) (GetItemsItemIdResponseObject, error)
-	// Buy a magical item
-	// (POST /items/{itemId}/purchase)
-	PostItemsItemIdPurchase(ctx context.Context, request PostItemsItemIdPurchaseRequestObject) (PostItemsItemIdPurchaseResponseObject, error)
-	// Get remaining stock for an item
-	// (GET /items/{itemId}/stock)
-	GetItemsItemIdStock(ctx context.Context, request GetItemsItemIdStockRequestObject) (GetItemsItemIdStockResponseObject, error)
+	// List magical products
+	// (GET /products)
+	GetProducts(ctx context.Context, request GetProductsRequestObject) (GetProductsResponseObject, error)
+	// Get a magical product
+	// (GET /products/{productId})
+	GetProductsProductId(ctx context.Context, request GetProductsProductIdRequestObject) (GetProductsProductIdResponseObject, error)
+	// Buy a magical product
+	// (POST /products/{productId}/purchase)
+	PostProductsProductIdPurchase(ctx context.Context, request PostProductsProductIdPurchaseRequestObject) (PostProductsProductIdPurchaseResponseObject, error)
+	// Get remaining stock for an product
+	// (GET /products/{productId}/stock)
+	GetProductsProductIdStock(ctx context.Context, request GetProductsProductIdStockRequestObject) (GetProductsProductIdStockResponseObject, error)
 }
 
 type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
@@ -329,17 +329,17 @@ type strictHandler struct {
 	middlewares []StrictMiddlewareFunc
 }
 
-// GetItems operation middleware
-func (sh *strictHandler) GetItems(ctx *gin.Context, params GetItemsParams) {
-	var request GetItemsRequestObject
+// GetProducts operation middleware
+func (sh *strictHandler) GetProducts(ctx *gin.Context, params GetProductsParams) {
+	var request GetProductsRequestObject
 
 	request.Params = params
 
 	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
-		return sh.ssi.GetItems(ctx, request.(GetItemsRequestObject))
+		return sh.ssi.GetProducts(ctx, request.(GetProductsRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetItems")
+		handler = middleware(handler, "GetProducts")
 	}
 
 	response, err := handler(ctx, request)
@@ -347,8 +347,8 @@ func (sh *strictHandler) GetItems(ctx *gin.Context, params GetItemsParams) {
 	if err != nil {
 		ctx.Error(err)
 		ctx.Status(http.StatusInternalServerError)
-	} else if validResponse, ok := response.(GetItemsResponseObject); ok {
-		if err := validResponse.VisitGetItemsResponse(ctx.Writer); err != nil {
+	} else if validResponse, ok := response.(GetProductsResponseObject); ok {
+		if err := validResponse.VisitGetProductsResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {
@@ -356,17 +356,17 @@ func (sh *strictHandler) GetItems(ctx *gin.Context, params GetItemsParams) {
 	}
 }
 
-// GetItemsItemId operation middleware
-func (sh *strictHandler) GetItemsItemId(ctx *gin.Context, itemId string) {
-	var request GetItemsItemIdRequestObject
+// GetProductsProductId operation middleware
+func (sh *strictHandler) GetProductsProductId(ctx *gin.Context, productId string) {
+	var request GetProductsProductIdRequestObject
 
-	request.ItemId = itemId
+	request.ProductId = productId
 
 	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
-		return sh.ssi.GetItemsItemId(ctx, request.(GetItemsItemIdRequestObject))
+		return sh.ssi.GetProductsProductId(ctx, request.(GetProductsProductIdRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetItemsItemId")
+		handler = middleware(handler, "GetProductsProductId")
 	}
 
 	response, err := handler(ctx, request)
@@ -374,8 +374,8 @@ func (sh *strictHandler) GetItemsItemId(ctx *gin.Context, itemId string) {
 	if err != nil {
 		ctx.Error(err)
 		ctx.Status(http.StatusInternalServerError)
-	} else if validResponse, ok := response.(GetItemsItemIdResponseObject); ok {
-		if err := validResponse.VisitGetItemsItemIdResponse(ctx.Writer); err != nil {
+	} else if validResponse, ok := response.(GetProductsProductIdResponseObject); ok {
+		if err := validResponse.VisitGetProductsProductIdResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {
@@ -383,13 +383,13 @@ func (sh *strictHandler) GetItemsItemId(ctx *gin.Context, itemId string) {
 	}
 }
 
-// PostItemsItemIdPurchase operation middleware
-func (sh *strictHandler) PostItemsItemIdPurchase(ctx *gin.Context, itemId string) {
-	var request PostItemsItemIdPurchaseRequestObject
+// PostProductsProductIdPurchase operation middleware
+func (sh *strictHandler) PostProductsProductIdPurchase(ctx *gin.Context, productId string) {
+	var request PostProductsProductIdPurchaseRequestObject
 
-	request.ItemId = itemId
+	request.ProductId = productId
 
-	var body PostItemsItemIdPurchaseJSONRequestBody
+	var body PostProductsProductIdPurchaseJSONRequestBody
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.Status(http.StatusBadRequest)
 		ctx.Error(err)
@@ -398,10 +398,10 @@ func (sh *strictHandler) PostItemsItemIdPurchase(ctx *gin.Context, itemId string
 	request.Body = &body
 
 	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
-		return sh.ssi.PostItemsItemIdPurchase(ctx, request.(PostItemsItemIdPurchaseRequestObject))
+		return sh.ssi.PostProductsProductIdPurchase(ctx, request.(PostProductsProductIdPurchaseRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "PostItemsItemIdPurchase")
+		handler = middleware(handler, "PostProductsProductIdPurchase")
 	}
 
 	response, err := handler(ctx, request)
@@ -409,8 +409,8 @@ func (sh *strictHandler) PostItemsItemIdPurchase(ctx *gin.Context, itemId string
 	if err != nil {
 		ctx.Error(err)
 		ctx.Status(http.StatusInternalServerError)
-	} else if validResponse, ok := response.(PostItemsItemIdPurchaseResponseObject); ok {
-		if err := validResponse.VisitPostItemsItemIdPurchaseResponse(ctx.Writer); err != nil {
+	} else if validResponse, ok := response.(PostProductsProductIdPurchaseResponseObject); ok {
+		if err := validResponse.VisitPostProductsProductIdPurchaseResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {
@@ -418,17 +418,17 @@ func (sh *strictHandler) PostItemsItemIdPurchase(ctx *gin.Context, itemId string
 	}
 }
 
-// GetItemsItemIdStock operation middleware
-func (sh *strictHandler) GetItemsItemIdStock(ctx *gin.Context, itemId string) {
-	var request GetItemsItemIdStockRequestObject
+// GetProductsProductIdStock operation middleware
+func (sh *strictHandler) GetProductsProductIdStock(ctx *gin.Context, productId string) {
+	var request GetProductsProductIdStockRequestObject
 
-	request.ItemId = itemId
+	request.ProductId = productId
 
 	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
-		return sh.ssi.GetItemsItemIdStock(ctx, request.(GetItemsItemIdStockRequestObject))
+		return sh.ssi.GetProductsProductIdStock(ctx, request.(GetProductsProductIdStockRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetItemsItemIdStock")
+		handler = middleware(handler, "GetProductsProductIdStock")
 	}
 
 	response, err := handler(ctx, request)
@@ -436,8 +436,8 @@ func (sh *strictHandler) GetItemsItemIdStock(ctx *gin.Context, itemId string) {
 	if err != nil {
 		ctx.Error(err)
 		ctx.Status(http.StatusInternalServerError)
-	} else if validResponse, ok := response.(GetItemsItemIdStockResponseObject); ok {
-		if err := validResponse.VisitGetItemsItemIdStockResponse(ctx.Writer); err != nil {
+	} else if validResponse, ok := response.(GetProductsProductIdStockResponseObject); ok {
+		if err := validResponse.VisitGetProductsProductIdStockResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {

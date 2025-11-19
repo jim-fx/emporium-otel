@@ -15,6 +15,7 @@ type Product struct {
 	Price       int    `db:"price"`
 	Image       string `db:"image"`
 	Description string `db:"description"`
+	Quantity    int    `db:"quantity"`
 }
 
 // ListProducts returns all products ordered by name.
@@ -27,7 +28,8 @@ func (db *DB) ListProducts(ctx context.Context) ([]Product, error) {
 			rarity,
 			price,
 			image,
-			description
+			description,
+			quantity
 		FROM products
 		WHERE type = 'potion'
 		ORDER BY name;
@@ -55,7 +57,8 @@ func (db *DB) GetProductByName(ctx context.Context, name string) (*Product, erro
 			rarity,
 			price,
 			image,
-			description
+			description,
+			quantity
 		FROM products
 		WHERE name = $1
 		LIMIT 1;

@@ -25,3 +25,6 @@ RUN mkdir -p /var/cache && chown www-data:www-data /var/cache
 ENV APP_CACHE_DIR=/var/cache
 
 WORKDIR /var/www/html
+
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader

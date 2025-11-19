@@ -1,9 +1,8 @@
 import { Context } from "hono";
 import * as db from "./db/db.ts";
 
-export async function listItems(c: Context) {
-  const products = await db.listProducts();
+export async function listProducts(c: Context) {
   return c.json({
-    items: products,
+    products: await db.listProducts(),
   });
 }

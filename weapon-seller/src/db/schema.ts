@@ -8,4 +8,5 @@ export const products = pgTable("products", {
   price: integer("price"),
   image: text("image"),
   description: text("description"),
+  quantity: integer("quantity"),
 });

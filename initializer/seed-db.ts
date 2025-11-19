@@ -27,7 +27,8 @@ async function main() {
       rarity      VARCHAR(50)  NOT NULL,
       price       INTEGER      NOT NULL,
       image       VARCHAR(255) NOT NULL,
-      description TEXT
+      description TEXT,
+      quantity    INTEGER      NOT NULL DEFAULT 1
     );
   `;
 
@@ -50,15 +51,27 @@ async function main() {
   for (const product of products) {
     const imageUrl = `http://localhost:8080/products/${product.name}.webp`;
 
+    const amount: Record<string, number> = {
+      "legendary": 5,
+      "epic": 10,
+      "rare": 20,
+      "common": 40,
+    };
+
+    const quantity = Math.floor(
+      (Math.random() * amount[product.rarity]) + amount[product.rarity] / 10,
+    );
+
     await sql`
-      INSERT INTO products (name, type, rarity, price, image, description)
+      INSERT INTO products (name, type, rarity, price, image, description, quantity)
       VALUES (
         ${product.name},
         ${product.type},
         ${product.rarity},
         ${product.price},
         ${imageUrl},
-        ${product.description}
+        ${product.description},
+        ${quantity}
       );
     `;
   }

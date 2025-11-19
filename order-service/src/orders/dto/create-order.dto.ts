@@ -4,6 +4,9 @@ import { Type } from 'class-transformer';
 
 class ProductDetailDto {
   @IsString()
+  name: string;
+
+  @IsString()
   id: string;
 
   @IsInt()

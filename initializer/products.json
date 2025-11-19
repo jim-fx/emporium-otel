@@ -1,212 +1,212 @@
 [
-    {
-      "name": "Aurelis Charm",
-      "type": "charm",
-      "rarity": "rare",
-      "price": 220,
-      "description": "A polished golden disc etched with a subtle eight-rayed star that seems to realign itself when you’re not looking. When worn close to the heart, the Aurelis Charm gently sharpens intuition, helping the bearer see elegant solutions in tangled problems and spot overlooked patterns in runes, maps, or contracts."
-    },
-    {
-      "name": "Stormweave Pendant",
-      "type": "charm",
-      "rarity": "rare",
-      "price": 250,
-      "description": "Forged from weathered silver and threaded with captive lightning, this pendant hums faintly like distant thunder. With a whispered command, it conjures a focused gust of wind strong enough to slam shutters, send arrows off course, or puff a cloak dramatically at just the right moment."
-    },
-    {
-      "name": "Veilbreaker Token",
-      "type": "charm",
-      "rarity": "legendary",
-      "price": 800,
-      "description": "A dark-glass charm set in blackened silver that reflects almost no light, save for a thin ring of violet at its edge. When activated, the token burns cold against the skin and briefly tears at the edges of reality, revealing invisible wards, concealed runes, and lingering spellwork as shimmering threads in the air."
-    },
-    {
-      "name": "Heartroot Amulet",
-      "type": "charm",
-      "rarity": "rare",
-      "price": 180,
-      "description": "Carved from the inner heartwood of an ancient forest behemoth, this amulet carries the subtle scent of fresh earth and pine. The wearer feels their heartbeat slow and thoughts steady, allowing them to resist panic, stage fright, and magical fear while maintaining clear focus on the task at hand."
-    },
-    {
-      "name": "Moonflare Sigil",
-      "type": "charm",
-      "rarity": "rare",
-      "price": 190,
-      "description": "A crescent-shaped stone inlaid with silver dust that glows softly whenever true night falls. The Moonflare Sigil sheds a pale, steady light that does not ruin darkvision and subtly disrupts illusions nearby, causing glamours to flicker and false disguises to lose their convincing sheen."
-    },
-    {
-      "name": "Echo Band",
-      "type": "charm",
-      "rarity": "common",
-      "price": 17,
-      "description": "A simple ring-shaped charm with a faint spiral engraving that feels warm when conversation is lively. The band remembers the last sentence spoken by its wearer and can replay it aloud once with perfect clarity, making it ideal for repeating secret passphrases, mimicking a superior’s voice, or correcting your own hasty words."
-    },
-    {
-      "name": "Ward of Embers",
-      "type": "charm",
-      "rarity": "common",
-      "price": 23,
-      "description": "A copper talisman shaped like a tiny brazier, its surface darkened as though it has lived in a forge for decades. When worn, it radiates a gentle warmth that keeps frost from clinging to armor, wards off numb fingers, and allows the bearer to sleep comfortably in bitter winter nights without a campfire."
-    },
-    {
-      "name": "Seastrider Pendant",
-      "type": "charm",
-      "rarity": "rare",
-      "price": 200,
-      "description": "A shard of sea-blue crystal suspended in a delicate wire cage that always feels faintly damp. Near rivers, lakes, or the open sea, the wearer’s sense of balance becomes preternaturally sharp, allowing them to keep their footing on slick decks, narrow piers, or treacherous cliff paths as though walking a level road."
-    },
-    {
-      "name": "Gravemind Relic",
-      "type": "charm",
-      "rarity": "epic",
-      "price": 550,
-      "description": "A thin charm made from polished bone, carved with spiraling script in a language most would rather not recognize. When held over a grave, battlefield, or other place of death, faint whispers crawl into the bearer’s mind, offering fragmented impressions, feelings, or single words from those long departed—never enough for full conversation, but more than silence."
-    },
-    {
-      "name": "Sunpulse Medallion",
-      "type": "charm",
-      "rarity": "legendary",
-      "price": 900,
-      "description": "A disc of amber shot through with fine golden veins that throb like a heartbeat when gripped tightly. Once per day, the wearer can call on the medallion to flood their muscles with radiant vigor, shaking off fatigue, sprinting further than seems possible, or lifting weights that should by all rights be immovable."
-    },
-    {
-      "name": "Starbranch Wand",
-      "type": "weapon",
-      "rarity": "rare",
-      "price": 260,
-      "description": "Fashioned from a branch that fell during a meteor shower, this wand is feather-light and faintly speckled with silvery motes. A flick of the wrist produces a concentrated burst of starlight, bright enough to blind foes in a small cone or illuminate a cavern without the smoke and heat of a torch."
-    },
-    {
-      "name": "Ironbloom Shortsword",
-      "type": "weapon",
-      "rarity": "rare",
-      "price": 270,
-      "description": "A compact blade forged from ore smelted in enchanted blossom-fire, leaving petal-shaped patterns in the steel. The Ironbloom Shortsword never rusts, never dulls, and seems especially keen against constructs and armored foes, biting through corroded mail and old hinges as though cutting into soft bark."
-    },
-    {
-      "name": "Whisperstaff",
-      "type": "weapon",
-      "rarity": "epic",
-      "price": 500,
-      "description": "This long staff is wrapped in overlapping strips of dark leather that swallow sound instead of creaking. When planted lightly on the ground, a subtle enchantment spreads out, softening every footstep within a short radius and making whispered speech nearly impossible to overhear beyond arm’s length."
-    },
-    {
-      "name": "Glimmerwand",
-      "type": "weapon",
-      "rarity": "common",
-      "price": 39,
-      "description": "Tipped with a multifaceted crystal, this wand leaves a faint trail of glittering motes whenever raised. A simple gesture can unleash a fan of dazzling sparks that hover in the air, distracting enemies, confusing creatures that rely on sight, or creating temporary patterns and signals for allies to follow."
-    },
-    {
-      "name": "Twinfang Daggers",
-      "type": "weapon",
-      "rarity": "rare",
-      "price": 280,
-      "description": "A matched pair of curved blades, each perfectly balanced and engraved with opposing serpent motifs. When wielded together, the Twinfang Daggers seem to anticipate each other’s movements, encouraging fluid strikes, rapid parries, and elaborate feints that leave opponents off-balance and bleeding from a dozen shallow cuts."
-    },
-    {
-      "name": "Oakbreaker Axe",
-      "type": "weapon",
-      "rarity": "common",
-      "price": 130,
-      "description": "A broad-headed axe with a nicked but unyielding edge, its haft bound in storm-hardened bark. Each swing lands with an echoing thud that seems far too loud for its size, granting the user exceptional leverage against wood: doors, shields, and tree trunks crack open with only a few determined blows."
-    },
-    {
-      "name": "Runebound Spear",
-      "type": "weapon",
-      "rarity": "epic",
-      "price": 400,
-      "description": "The ash shaft of this spear is wrapped in inked runes that glow faintly when the wielder steadies their breath. Aiming feels unnaturally precise, as if invisible lines connect the spearpoint to its target, making long thrusts, thrown strikes, and even improvised pole-vaulting surer and more controlled."
-    },
-    {
-      "name": "Embercoil Rod",
-      "type": "weapon",
-      "rarity": "rare",
-      "price": 190,
-      "description": "A metal rod wrapped in copper coils that constantly shimmer with faint, smokeless heat. With a twist of the grip, the Embercoil Rod can unleash ripples of warmth strong enough to singe parchment, warp thin ice, or make metal too hot to hold, yet it never quite bursts into open flame unless truly misused."
-    },
-    {
-      "name": "Frostbite Mace",
-      "type": "weapon",
-      "rarity": "epic",
-      "price": 480,
-      "description": "A heavy-headed mace rimed with a thin layer of permanent frost that never melts, even in desert heat. Each strike leaves a ghostly blue imprint on armor and flesh alike, sapping warmth from the target and making metal brittle, ropes stiff, and exposed skin numb with unnatural cold."
-    },
-    {
-      "name": "Gale Wand",
-      "type": "weapon",
-      "rarity": "legendary",
-      "price": 1100,
-      "description": "Crafted from hollow reed reinforced with invisible currents, this wand feels lighter than air in the hand. A practiced wielder can direct short, powerful gusts of wind to push themselves sideways, knock foes off-balance, redirect falling objects, or send thrown projectiles veering toward more advantageous trajectories."
-    },
-    {
-      "name": "Brew of Quiet Stamina",
-      "type": "potion",
-      "rarity": "common",
-      "price": 56,
-      "description": "A muted violet liquid that smells faintly of roasted nuts and rain-damp cloth. When sipped slowly, it seeps through tired limbs and weary minds, restoring energy without jittery side effects, allowing long marches, late-night study sessions, or extended watch shifts to pass in calm, focused silence."
-    },
-    {
-      "name": "Nightseer Elixir",
-      "type": "potion",
-      "rarity": "common",
-      "price": 22,
-      "description": "This deep blue draught glows faintly when the cork is removed, as though jealous of nearby light sources. After drinking, shadows thin and starlight brightens, granting the imbiber keen low-light vision that picks out tripwires, lurking shapes, and hidden paths that others stumble past blindly."
-    },
-    {
-      "name": "Verdant Recovery Tonic",
-      "type": "potion",
-      "rarity": "rare",
-      "price": 230,
-      "description": "Swirling with suspended green flecks that resemble tiny leaves, this tonic tastes of crushed herbs and morning dew. Moments after it is swallowed, a gentle warmth spreads through the body, closing small cuts, easing bruises, and accelerating the natural healing of more serious wounds over the next several hours."
-    },
-    {
-      "name": "Bottled Courage",
-      "type": "potion",
-      "rarity": "epic",
-      "price": 350,
-      "description": "A golden liquid that fizzes softly against the glass, refusing to settle even when left untouched. Once imbibed, fear retreats to a distant murmur, allowing the drinker to face looming monsters, hostile crowds, or daunting negotiations with a steady voice and an unshaking hand—though reckless decisions remain entirely their own."
-    },
-    {
-      "name": "Liquid Swiftness",
-      "type": "potion",
-      "rarity": "rare",
-      "price": 160,
-      "description": "This clear, slightly minty potion leaves a tingling sensation on the tongue and a phantom echo in the feet. For a brief window of time, the drinker’s muscles respond with uncanny speed, improving sprinting, dodging, and delicate handwork, though the mind must keep up or risk stumbling over its own newfound agility."
-    },
-    {
-      "name": "Arcane Stabilizer",
-      "type": "potion",
-      "rarity": "epic",
-      "price": 420,
-      "description": "A cloudy silver mixture that clings to the inside of the bottle like liquid moonlight. Mages who drink it feel rogue surges and misfires dampen, their spellcasting becoming smoother and less volatile, making dangerous experiments, unstable rituals, and improvised battle magic far less likely to explode in their faces."
-    },
-    {
-      "name": "Mindclasp Serum",
-      "type": "potion",
-      "rarity": "rare",
-      "price": 210,
-      "description": "A pale blue serum that forms perfect, wobbling spheres when poured, resisting gravity for a heartbeat. Once swallowed, names, patterns, and complex instructions seem to lock into place in the drinker’s thoughts, making it much easier to memorize maps, incantations, or long sequences of passwords for several hours."
-    },
-    {
-      "name": "Drakefire Draft",
-      "type": "potion",
-      "rarity": "epic",
-      "price": 580,
-      "description": "A viscous orange potion that radiates gentle warmth through the glass and leaves faint scorch marks on wooden shelves. After consumption, flames feel more like hot water than agony, granting temporary resistance to fire, scorching steam, and molten slag—though the drinker’s clothing may not share the same protection."
-    },
-    {
-      "name": "Shimmering Mute Potion",
-      "type": "potion",
-      "rarity": "legendary",
-      "price": 950,
-      "description": "Filled with tiny iridescent motes that vanish when the bottle is opened, this potion tastes like cool, empty air. For a limited time, the drinker’s movements produce no sound: footsteps are silent, fabric makes no rustle, and even the clink of gear is swallowed, making them a ghost in any corridor they choose to stalk."
-    },
-    {
-      "name": "Kindred Mist",
-      "type": "potion",
-      "rarity": "mythical",
-      "price": 15,
-      "description": "This bottle contains a pearlescent vapor rather than liquid, which curls affectionately around any hand that uncorks it. Inhaling the mist wraps the mind in a warm, empathetic calm, easing frayed tempers, softening grief, and making it easier to forge bonds or mend old rifts as hearts open to quiet, honest conversation."
-    }
+  {
+    "name": "Aurelis Charm",
+    "type": "charm",
+    "rarity": "rare",
+    "price": 220,
+    "description": "A polished golden disc etched with a subtle eight-rayed star that seems to realign itself when you’re not looking. When worn close to the heart, the Aurelis Charm gently sharpens intuition, helping the bearer see elegant solutions in tangled problems and spot overlooked patterns in runes, maps, or contracts."
+  },
+  {
+    "name": "Stormweave Pendant",
+    "type": "charm",
+    "rarity": "rare",
+    "price": 250,
+    "description": "Forged from weathered silver and threaded with captive lightning, this pendant hums faintly like distant thunder. With a whispered command, it conjures a focused gust of wind strong enough to slam shutters, send arrows off course, or puff a cloak dramatically at just the right moment."
+  },
+  {
+    "name": "Veilbreaker Token",
+    "type": "charm",
+    "rarity": "legendary",
+    "price": 800,
+    "description": "A dark-glass charm set in blackened silver that reflects almost no light, save for a thin ring of violet at its edge. When activated, the token burns cold against the skin and briefly tears at the edges of reality, revealing invisible wards, concealed runes, and lingering spellwork as shimmering threads in the air."
+  },
+  {
+    "name": "Heartroot Amulet",
+    "type": "charm",
+    "rarity": "rare",
+    "price": 180,
+    "description": "Carved from the inner heartwood of an ancient forest behemoth, this amulet carries the subtle scent of fresh earth and pine. The wearer feels their heartbeat slow and thoughts steady, allowing them to resist panic, stage fright, and magical fear while maintaining clear focus on the task at hand."
+  },
+  {
+    "name": "Moonflare Sigil",
+    "type": "charm",
+    "rarity": "rare",
+    "price": 190,
+    "description": "A crescent-shaped stone inlaid with silver dust that glows softly whenever true night falls. The Moonflare Sigil sheds a pale, steady light that does not ruin darkvision and subtly disrupts illusions nearby, causing glamours to flicker and false disguises to lose their convincing sheen."
+  },
+  {
+    "name": "Echo Band",
+    "type": "charm",
+    "rarity": "common",
+    "price": 17,
+    "description": "A simple ring-shaped charm with a faint spiral engraving that feels warm when conversation is lively. The band remembers the last sentence spoken by its wearer and can replay it aloud once with perfect clarity, making it ideal for repeating secret passphrases, mimicking a superior’s voice, or correcting your own hasty words."
+  },
+  {
+    "name": "Ward of Embers",
+    "type": "charm",
+    "rarity": "common",
+    "price": 23,
+    "description": "A copper talisman shaped like a tiny brazier, its surface darkened as though it has lived in a forge for decades. When worn, it radiates a gentle warmth that keeps frost from clinging to armor, wards off numb fingers, and allows the bearer to sleep comfortably in bitter winter nights without a campfire."
+  },
+  {
+    "name": "Seastrider Pendant",
+    "type": "charm",
+    "rarity": "rare",
+    "price": 200,
+    "description": "A shard of sea-blue crystal suspended in a delicate wire cage that always feels faintly damp. Near rivers, lakes, or the open sea, the wearer’s sense of balance becomes preternaturally sharp, allowing them to keep their footing on slick decks, narrow piers, or treacherous cliff paths as though walking a level road."
+  },
+  {
+    "name": "Gravemind Relic",
+    "type": "charm",
+    "rarity": "epic",
+    "price": 550,
+    "description": "A thin charm made from polished bone, carved with spiraling script in a language most would rather not recognize. When held over a grave, battlefield, or other place of death, faint whispers crawl into the bearer’s mind, offering fragmented impressions, feelings, or single words from those long departed—never enough for full conversation, but more than silence."
+  },
+  {
+    "name": "Sunpulse Medallion",
+    "type": "charm",
+    "rarity": "legendary",
+    "price": 900,
+    "description": "A disc of amber shot through with fine golden veins that throb like a heartbeat when gripped tightly. Once per day, the wearer can call on the medallion to flood their muscles with radiant vigor, shaking off fatigue, sprinting further than seems possible, or lifting weights that should by all rights be immovable."
+  },
+  {
+    "name": "Starbranch Wand",
+    "type": "weapon",
+    "rarity": "rare",
+    "price": 260,
+    "description": "Fashioned from a branch that fell during a meteor shower, this wand is feather-light and faintly speckled with silvery motes. A flick of the wrist produces a concentrated burst of starlight, bright enough to blind foes in a small cone or illuminate a cavern without the smoke and heat of a torch."
+  },
+  {
+    "name": "Ironbloom Shortsword",
+    "type": "weapon",
+    "rarity": "rare",
+    "price": 270,
+    "description": "A compact blade forged from ore smelted in enchanted blossom-fire, leaving petal-shaped patterns in the steel. The Ironbloom Shortsword never rusts, never dulls, and seems especially keen against constructs and armored foes, biting through corroded mail and old hinges as though cutting into soft bark."
+  },
+  {
+    "name": "Whisperstaff",
+    "type": "weapon",
+    "rarity": "epic",
+    "price": 500,
+    "description": "This long staff is wrapped in overlapping strips of dark leather that swallow sound instead of creaking. When planted lightly on the ground, a subtle enchantment spreads out, softening every footstep within a short radius and making whispered speech nearly impossible to overhear beyond arm’s length."
+  },
+  {
+    "name": "Glimmerwand",
+    "type": "weapon",
+    "rarity": "common",
+    "price": 39,
+    "description": "Tipped with a multifaceted crystal, this wand leaves a faint trail of glittering motes whenever raised. A simple gesture can unleash a fan of dazzling sparks that hover in the air, distracting enemies, confusing creatures that rely on sight, or creating temporary patterns and signals for allies to follow."
+  },
+  {
+    "name": "Twinfang Daggers",
+    "type": "weapon",
+    "rarity": "rare",
+    "price": 280,
+    "description": "A matched pair of curved blades, each perfectly balanced and engraved with opposing serpent motifs. When wielded together, the Twinfang Daggers seem to anticipate each other’s movements, encouraging fluid strikes, rapid parries, and elaborate feints that leave opponents off-balance and bleeding from a dozen shallow cuts."
+  },
+  {
+    "name": "Oakbreaker Axe",
+    "type": "weapon",
+    "rarity": "common",
+    "price": 130,
+    "description": "A broad-headed axe with a nicked but unyielding edge, its haft bound in storm-hardened bark. Each swing lands with an echoing thud that seems far too loud for its size, granting the user exceptional leverage against wood: doors, shields, and tree trunks crack open with only a few determined blows."
+  },
+  {
+    "name": "Runebound Spear",
+    "type": "weapon",
+    "rarity": "epic",
+    "price": 400,
+    "description": "The ash shaft of this spear is wrapped in inked runes that glow faintly when the wielder steadies their breath. Aiming feels unnaturally precise, as if invisible lines connect the spearpoint to its target, making long thrusts, thrown strikes, and even improvised pole-vaulting surer and more controlled."
+  },
+  {
+    "name": "Embercoil Rod",
+    "type": "weapon",
+    "rarity": "rare",
+    "price": 190,
+    "description": "A metal rod wrapped in copper coils that constantly shimmer with faint, smokeless heat. With a twist of the grip, the Embercoil Rod can unleash ripples of warmth strong enough to singe parchment, warp thin ice, or make metal too hot to hold, yet it never quite bursts into open flame unless truly misused."
+  },
+  {
+    "name": "Frostbite Mace",
+    "type": "weapon",
+    "rarity": "epic",
+    "price": 480,
+    "description": "A heavy-headed mace rimed with a thin layer of permanent frost that never melts, even in desert heat. Each strike leaves a ghostly blue imprint on armor and flesh alike, sapping warmth from the target and making metal brittle, ropes stiff, and exposed skin numb with unnatural cold."
+  },
+  {
+    "name": "Gale Wand",
+    "type": "weapon",
+    "rarity": "legendary",
+    "price": 1100,
+    "description": "Crafted from hollow reed reinforced with invisible currents, this wand feels lighter than air in the hand. A practiced wielder can direct short, powerful gusts of wind to push themselves sideways, knock foes off-balance, redirect falling objects, or send thrown projectiles veering toward more advantageous trajectories."
+  },
+  {
+    "name": "Brew of Quiet Stamina",
+    "type": "potion",
+    "rarity": "common",
+    "price": 56,
+    "description": "A muted violet liquid that smells faintly of roasted nuts and rain-damp cloth. When sipped slowly, it seeps through tired limbs and weary minds, restoring energy without jittery side effects, allowing long marches, late-night study sessions, or extended watch shifts to pass in calm, focused silence."
+  },
+  {
+    "name": "Nightseer Elixir",
+    "type": "potion",
+    "rarity": "common",
+    "price": 22,
+    "description": "This deep blue draught glows faintly when the cork is removed, as though jealous of nearby light sources. After drinking, shadows thin and starlight brightens, granting the imbiber keen low-light vision that picks out tripwires, lurking shapes, and hidden paths that others stumble past blindly."
+  },
+  {
+    "name": "Verdant Recovery Tonic",
+    "type": "potion",
+    "rarity": "rare",
+    "price": 230,
+    "description": "Swirling with suspended green flecks that resemble tiny leaves, this tonic tastes of crushed herbs and morning dew. Moments after it is swallowed, a gentle warmth spreads through the body, closing small cuts, easing bruises, and accelerating the natural healing of more serious wounds over the next several hours."
+  },
+  {
+    "name": "Bottled Courage",
+    "type": "potion",
+    "rarity": "epic",
+    "price": 350,
+    "description": "A golden liquid that fizzes softly against the glass, refusing to settle even when left untouched. Once imbibed, fear retreats to a distant murmur, allowing the drinker to face looming monsters, hostile crowds, or daunting negotiations with a steady voice and an unshaking hand—though reckless decisions remain entirely their own."
+  },
+  {
+    "name": "Liquid Swiftness",
+    "type": "potion",
+    "rarity": "rare",
+    "price": 160,
+    "description": "This clear, slightly minty potion leaves a tingling sensation on the tongue and a phantom echo in the feet. For a brief window of time, the drinker’s muscles respond with uncanny speed, improving sprinting, dodging, and delicate handwork, though the mind must keep up or risk stumbling over its own newfound agility."
+  },
+  {
+    "name": "Arcane Stabilizer",
+    "type": "potion",
+    "rarity": "epic",
+    "price": 420,
+    "description": "A cloudy silver mixture that clings to the inside of the bottle like liquid moonlight. Mages who drink it feel rogue surges and misfires dampen, their spellcasting becoming smoother and less volatile, making dangerous experiments, unstable rituals, and improvised battle magic far less likely to explode in their faces."
+  },
+  {
+    "name": "Mindclasp Serum",
+    "type": "potion",
+    "rarity": "rare",
+    "price": 210,
+    "description": "A pale blue serum that forms perfect, wobbling spheres when poured, resisting gravity for a heartbeat. Once swallowed, names, patterns, and complex instructions seem to lock into place in the drinker’s thoughts, making it much easier to memorize maps, incantations, or long sequences of passwords for several hours."
+  },
+  {
+    "name": "Drakefire Draft",
+    "type": "potion",
+    "rarity": "epic",
+    "price": 580,
+    "description": "A viscous orange potion that radiates gentle warmth through the glass and leaves faint scorch marks on wooden shelves. After consumption, flames feel more like hot water than agony, granting temporary resistance to fire, scorching steam, and molten slag—though the drinker’s clothing may not share the same protection."
+  },
+  {
+    "name": "Shimmering Mute Potion",
+    "type": "potion",
+    "rarity": "legendary",
+    "price": 950,
+    "description": "Filled with tiny iridescent motes that vanish when the bottle is opened, this potion tastes like cool, empty air. For a limited time, the drinker’s movements produce no sound: footsteps are silent, fabric makes no rustle, and even the clink of gear is swallowed, making them a ghost in any corridor they choose to stalk."
+  },
+  {
+    "name": "Kindred Mist",
+    "type": "potion",
+    "rarity": "rare",
+    "price": 15,
+    "description": "This bottle contains a pearlescent vapor rather than liquid, which curls affectionately around any hand that uncorks it. Inhaling the mist wraps the mind in a warm, empathetic calm, easing frayed tempers, softening grief, and making it easier to forge bonds or mend old rifts as hearts open to quiet, honest conversation."
+  }
 ]

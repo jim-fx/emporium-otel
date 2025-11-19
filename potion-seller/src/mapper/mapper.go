@@ -5,7 +5,7 @@ import (
 	"github.com/jim-fx/otel-shop-api/src/db"
 )
 
-func ProductRarityToItem(rarity string) gen.ItemRarity {
+func ProductRarityToItem(rarity string) gen.ProductRarity {
 	switch rarity {
 	case "epic":
 		return gen.Epic
@@ -13,14 +13,12 @@ func ProductRarityToItem(rarity string) gen.ItemRarity {
 		return gen.Legendary
 	case "rare":
 		return gen.Rare
-	case "Uncommon":
-		return gen.Uncommon
 	default:
 		return gen.Common
 	}
 }
 
-func ProductTypeToType(itemType string) gen.ItemType {
+func ProductTypeToType(itemType string) gen.ProductType {
 	switch itemType {
 	case "charm":
 		return gen.Charm
@@ -33,10 +31,10 @@ func ProductTypeToType(itemType string) gen.ItemType {
 	}
 }
 
-func ProductToItem(product db.Product) gen.Item {
+func ProductToItem(product db.Product) gen.Product {
 	rarity := ProductRarityToItem(product.Rarity)
 	itemType := ProductTypeToType(product.Type)
-	return gen.Item{
+	return gen.Product{
 		Id:          product.ID,
 		Description: &product.Description,
 		Name:        product.Name,
@@ -44,12 +42,12 @@ func ProductToItem(product db.Product) gen.Item {
 		Image:       &product.Image,
 		Type:        &itemType,
 		Rarity:      &rarity,
-		Stock:       1,
+		Quantity:    &product.Quantity,
 	}
 }
 
-func ProductsToItems(products []db.Product) []gen.Item {
-	res := make([]gen.Item, len(products))
+func ProductsToItems(products []db.Product) []gen.Product {
+	res := make([]gen.Product, len(products))
 	for i, product := range products {
 		res[i] = ProductToItem(product)
 	}

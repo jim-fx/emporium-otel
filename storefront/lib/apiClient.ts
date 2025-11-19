@@ -1,5 +1,5 @@
-import { Product } from "./data.ts";
-import { sellers } from "./sellers.ts";
+import { Product } from "./data";
+import { sellers } from "./sellers";
 
 // As defined in openapi.yaml
 interface ApiProduct {
@@ -9,12 +9,14 @@ interface ApiProduct {
   stock: number;
   image?: string;
   description: string;
-  rarity: "common" | "uncommon" | "rare" | "epic" | "legendary";
+  quantity: number;
+  rarity: "common" | "rare" | "epic" | "legendary";
   type: "charm" | "weapon" | "potion";
 }
 
 // From order-service
 interface ProductDetail {
+  name: string;
   id: string;
   quantity: number;
 }
@@ -31,14 +33,14 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
     throw new Error(`Seller not found: ${sellerId}`);
   }
 
-  const response = await fetch(`${seller.url}/items`);
+  const response = await fetch(`${seller.url}/products`);
   if (!response.ok) {
     throw new Error(`Failed to fetch products from ${seller.name}`);
   }
 
   try {
-    const data: { items: ApiProduct[] } = await response.json();
-    return data.items.map((apiProduct) => ({
+    const data: { products: ApiProduct[] } = await response.json();
+    return data.products.map((apiProduct) => ({
       id: apiProduct.id,
       name: apiProduct.name,
       price: apiProduct.price,
@@ -46,9 +48,10 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
       rarity: apiProduct.rarity,
       stock: apiProduct.stock,
       seller: seller.id,
+      quantity: apiProduct.quantity,
       image: apiProduct.image || `/products/${apiProduct.name}.png`,
     }));
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(
       `Failed to parse products from ${seller.url}, ${e?.message}`,
     );
@@ -102,16 +105,16 @@ export async function purchaseItem(
 }
 
 export async function createOrder(order: OrderCreate): Promise<void> {
-    const response = await fetch(`/api/orders`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-    });
+  const response = await fetch(`/api/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || `Failed to create order`);
-    }
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.detail || `Failed to create order`);
+  }
 }

@@ -92,6 +92,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       await createOrder({
         user_id: userId,
         products: cart.map((item) => ({
+          name: item.name,
           id: item.id,
           quantity: item.quantity,
         })),

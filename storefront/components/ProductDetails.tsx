@@ -1,8 +1,8 @@
 "use client";
-import { Product } from "../lib/data.ts";
-import { useCart } from "../context/CartContext.tsx";
-import { Badge } from "./ui/badge.tsx";
-import { Button } from "./ui/Button.tsx";
+import { Product } from "../lib/data";
+import { useCart } from "../context/CartContext";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/Button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -65,7 +65,7 @@ export function ProductDetails(
               {product.price} <img src="/coin.webp" className="w-8 h-8" />
             </span>
             <span className="text-slate-400">
-              {product.stock} in stock
+              {product.quantity} in stock
             </span>
           </div>
           <Button

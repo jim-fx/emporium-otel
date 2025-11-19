@@ -1,4 +1,11 @@
 name: otel-shop
+
+x-default-service: &default-service
+  env_file: .env
+  depends_on:
+    db:
+      condition: service_healthy
+
 services:
   db:
     image: postgres:18
@@ -11,52 +18,78 @@ services:
       - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql
-
-  initializer:
-    image: denoland/deno:2.5.6
-    env_file: .env
-    working_dir: /app
-    volumes:
-      - ./initializer:/app
-    depends_on:
-      - db
-    restart: on-failure
-    command: sh -c "deno task seed-db"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:4.2-management
     ports:
-      - "5672:5672" # for amqp
-      - "15672:15672" # for management ui
+      - "5672:5672"     # for amqp
+      - "15672:15672"   # for management ui
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    ports:
+      - "8085:80" # Web interface
+      - "2525:25" # SMTP
+
+  initializer:
+    <<: *default-service
+    image: denoland/deno:2.5.6
+    working_dir: /app
+    volumes:
+      - ./initializer:/app
+    restart: on-failure
+    command: sh -c "deno task seed-db"
+
+  storefront:
+    <<: *default-service
+    build:
+      context: ./storefront
+    working_dir: /app
+    env_file: .env
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./storefront:/app
+      - node-modules:/app/node_modules
 
   potion-seller:
-      image: cosmtrek/air
-      working_dir: /app
-      env_file: .env
-      ports:
-          - 8081:80
-      volumes:
-          - ./potion-seller:/app
-          - go-cache:/go
-  
+    <<: *default-service
+    image: cosmtrek/air
+    working_dir: /app
+    ports:
+      - 8081:80
+    volumes:
+      - ./potion-seller:/app
+      - go-cache:/go
+
   weapon-seller:
-      image: denoland/deno:2.5.6
-      working_dir: /app
-      command: deno task dev
-      env_file: .env
-      ports:
-          - 8082:80
-      volumes:
-          - ./weapon-seller:/app
-          - deno-cache:/deno-dir
+    <<: *default-service
+    image: denoland/deno:2.5.6
+    working_dir: /app
+    command: deno task dev
+    ports:
+      - 8082:80
+    volumes:
+      - ./weapon-seller:/app
+      - deno-cache:/deno-dir
 
   charm-seller:
+    <<: *default-service
     working_dir: /var/www/html
     build:
       context: ./charm-seller
-    env_file: .env
     environment:
       APP_ENV: dev
       APP_CACHE_DIR: /var/cache
@@ -67,51 +100,36 @@ services:
       - ./docker/charm-seller/apache/app.conf:/etc/apache2/sites-enabled/000-default.conf
 
   order-service:
-    image: node:24-alpine
-    env_file: .env
+    <<: *default-service
+    build:
+      context: ./order-service
     working_dir: /app
     ports:
       - 8084:80
     volumes:
       - ./order-service:/app
-      - /app/node_modules
-    command: sh -c "npm i -g pnpm && pnpm install && pnpm run start:dev"
+    # override depends_on to add rabbitmq while keeping db
     depends_on:
-      - rabbitmq
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
 
-  order-worker:
+  scribe-worker:
+    # only need env_file from default, custom depends_on
+    <<: *default-service
     build:
-      context: ./order-worker
-    env_file: .env
-    volumes:
-      - ./order-worker/src:/app/src
-      - ./order-worker/requirements.txt:/app/requirements.txt
-    command: sh -c "pip install -r requirements.txt && python -u src/worker.py"
+      context: ./scribe-worker
     depends_on:
-      - db
-      - rabbitmq
-      - smtp4dev
-
-  storefront:
-    image: node:24-alpine
-    working_dir: /app
-    command: sh -c "npm i -g pnpm && pnpm install && pnpm run dev"
-    env_file: .env
-    ports:
-      - "8080:3000"
-    volumes:
-      - ./storefront:/app
-      - node-modules:/app/node_modules
-
-  smtp4dev:
-    image: rnwood/smtp4dev:v3
-    ports:
-      - "8085:80" # Web interface
-      - "2525:25" # SMTP
+      rabbitmq:
+        condition: service_started
+      smtp4dev:
+        condition: service_started
 
 volumes:
-    go-cache:
-    deno-cache:
-    db-data:
-    rabbitmq-data:
-    node-modules:
+  go-cache:
+  deno-cache:
+  db-data:
+  rabbitmq-data:
+  node-modules:
+

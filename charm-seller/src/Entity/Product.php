@@ -43,6 +43,10 @@ class Product
     #[Groups(['product:read'])]
     private ?string $description = null;
 
+    #[ORM\Column]
+    #[Groups(['product:read'])]
+    private ?int $quantity = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -53,23 +57,9 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function getType(): ?string
     {
         return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     public function getRarity(): ?string
@@ -77,23 +67,9 @@ class Product
         return $this->rarity;
     }
 
-    public function setRarity(string $rarity): static
-    {
-        $this->rarity = $rarity;
-
-        return $this;
-    }
-
     public function getPrice(): ?int
     {
         return $this->price;
-    }
-
-    public function setPrice(int $price): static
-    {
-        $this->price = $price;
-
-        return $this;
     }
 
     public function getImage(): ?string
@@ -101,22 +77,13 @@ class Product
         return $this->image;
     }
 
-    public function setImage(string $image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function getQuantity():?int
     {
-        $this->description = $description;
-
-        return $this;
+        return $this->quantity;
     }
 }
