@@ -27,8 +27,8 @@ services:
   rabbitmq:
     image: rabbitmq:4.2-management
     ports:
-      - "5672:5672"     # for amqp
-      - "15672:15672"   # for management ui
+      - "5672:5672"
+      - "15672:15672"
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     healthcheck:
@@ -40,8 +40,8 @@ services:
   smtp4dev:
     image: rnwood/smtp4dev:v3
     ports:
-      - "8085:80" # Web interface
-      - "2525:25" # SMTP
+      - "8085:80"
+      - "2525:25"
 
   initializer:
     <<: *default-service
@@ -108,7 +108,6 @@ services:
       - 8084:80
     volumes:
       - ./order-service:/app
-    # override depends_on to add rabbitmq while keeping db
     depends_on:
       db:
         condition: service_healthy
@@ -116,7 +115,6 @@ services:
         condition: service_started
 
   scribe-worker:
-    # only need env_file from default, custom depends_on
     <<: *default-service
     build:
       context: ./scribe-worker

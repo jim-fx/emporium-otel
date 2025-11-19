@@ -58,7 +58,7 @@ export default async function ProfilePage() {
                     Total Price: {order.totalPrice} gold
                   </p>
                   <p className="text-slate-400">
-                    Products: {order.products.join(", ")}
+                    Products: {order.products.map((o) => o.name).join(", ")}
                   </p>
                   <p className="text-slate-400">
                     Ordered At: {new Date(order.createdAt).toLocaleString()}
