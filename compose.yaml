@@ -74,9 +74,18 @@ services:
     volumes:
       - ./potion-seller:/app
       - go-cache:/go
+    environment:
+      OTEL_PROPAGATORS: "tracecontext,baggage"
+      OTEL_SERVICE_NAME: "potion-seller"
+    command: go run main.go
 
   weapon-seller:
     <<: *default-service
+    environment:
+      OTEL_DENO: true
+      OTEL_DENO_CONSOLE: "ignore"
+      OTEL_PROPAGATORS: "tracecontext,baggage"
+      OTEL_SERVICE_NAME: "weapon-seller"
     image: denoland/deno:2.5.6
     working_dir: /app
     command: deno task dev
@@ -92,7 +101,7 @@ services:
     build:
       context: ./charm-seller
     environment:
-      APP_ENV: dev
+      APP_DEBUG: 0
       APP_CACHE_DIR: /var/cache
     ports:
       - 8083:80

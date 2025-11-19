@@ -7,10 +7,20 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jim-fx/otel-shop-api/src/api"
 	"github.com/jim-fx/otel-shop-api/src/db"
+	"github.com/jim-fx/otel-shop-api/src/otel"
 )
 
 func main() {
 	router := gin.Default()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	shutdownOtel, err := otel.Setup(ctx)
+	if err != nil {
+		panic(err)
+	}
+	defer shutdownOtel()
 
 	db, err := db.Init(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {

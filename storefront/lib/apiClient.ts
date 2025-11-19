@@ -1,5 +1,6 @@
 import { Product } from "./data";
 import { sellers } from "./sellers";
+import { tracedFetch } from "./tracingFetch.ts";
 
 // As defined in openapi.yaml
 interface ApiProduct {
@@ -42,7 +43,7 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
     throw new Error(`Seller not found: ${sellerId}`);
   }
 
-  const response = await fetch(`${seller.url}/products`);
+  const response = await tracedFetch(`${seller.url}/products`);
   if (!response.ok) {
     throw new Error(`Failed to fetch products from ${seller.name}`);
   }
@@ -98,13 +99,16 @@ export async function purchaseItem(
     throw new Error(`Service URL not found for seller: ${sellerId}`);
   }
 
-  const response = await fetch(`${seller.url}/items/${productName}/purchase`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await tracedFetch(
+    `${seller.url}/items/${productName}/purchase`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ quantity }),
     },
-    body: JSON.stringify({ quantity }),
-  });
+  );
 
   if (!response.ok) {
     const errorData = await response.json();
@@ -114,7 +118,7 @@ export async function purchaseItem(
 }
 
 export async function createOrder(order: OrderCreate): Promise<void> {
-  const response = await fetch(`/api/orders`, {
+  const response = await tracedFetch(`/api/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -129,11 +133,13 @@ export async function createOrder(order: OrderCreate): Promise<void> {
 }
 
 export async function getUserOrders(userId: string): Promise<ApiOrder[]> {
-  const response = await fetch(`/api/orders?userId=${userId}`);
+  const response = await tracedFetch(`/api/orders?userId=${userId}`);
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.detail || `Failed to fetch orders for user ${userId}`);
+    throw new Error(
+      errorData.detail || `Failed to fetch orders for user ${userId}`,
+    );
   }
 
   return response.json();

@@ -1,4 +1,14 @@
 receivers:
+  postgresql:
+    endpoint: db:5432
+    transport: tcp
+    username: postgres
+    password: postgres
+    databases:
+      - app
+    tls:
+      insecure: true
+    collection_interval: 10s
   filelog/docker:
     include:
       - /var/lib/docker/containers/*/*-json.log
@@ -90,7 +100,7 @@ service:
       processors: [batch]
       exporters: [otlphttp/traces]
     metrics:
-      receivers: [otlp, docker_stats]
+      receivers: [otlp, docker_stats, postgresql]
       processors: [batch]
       exporters: [otlphttp/metrics]
     logs:

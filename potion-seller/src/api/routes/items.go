@@ -2,17 +2,26 @@ package routes
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/jim-fx/otel-shop-api/src/api/gen"
 	"github.com/jim-fx/otel-shop-api/src/mapper"
 )
 
 // GetProducts implements gen.StrictServerInterface.
 func (c Core) GetProducts(ctx context.Context, request gen.GetProductsRequestObject) (gen.GetProductsResponseObject, error) {
+	fmt.Println("GetProducts")
+
 	products, err := c.DB.ListProducts(ctx)
 	if err != nil {
 		return nil, err
 	}
+
+	gctx := ctx.(*gin.Context)
+
+	traceparent := gctx.Request.Header.Get("traceparent")
+	fmt.Printf("Traceparent: %s\n", traceparent)
 
 	res := mapper.ProductsToItems(products)
 

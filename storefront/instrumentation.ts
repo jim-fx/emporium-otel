@@ -4,8 +4,6 @@ import { NodeSDK } from "@opentelemetry/sdk-node";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 
 import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
-
-// Enable internal SDK debugging
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 const sdk = new NodeSDK({
