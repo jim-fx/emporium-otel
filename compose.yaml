@@ -124,7 +124,109 @@ services:
       smtp4dev:
         condition: service_started
 
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    # Needs root (or at least read access) to host FS, docker.sock and container logs.
+    user: "0"
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./docker/otel-collector/config.yaml:/etc/otel-collector/config.yaml
+    command: |
+      --config=/etc/otel-collector/config.yaml
+      --feature-gates service.profilesSupport
+
+  init:
+    image: alpine:latest
+    user: root
+    command: >
+      sh -c "mkdir -p /data/prometheus /data/loki /data/tempo /data/pyroscope /data/grafana &&
+             chown -R 65534:65534 /data/prometheus &&
+             chown -R 10001:10001 /data/loki &&
+             chown -R 10001:10001 /data/tempo &&
+             chown -R 472:472 /data/grafana &&
+             chmod -R 775 /data"
+    volumes:
+      - observability_storage:/data
+
+  prometheus:
+    image: prom/prometheus:latest
+    profiles:
+      - otel
+    volumes:
+      - ./docker/prometheus/config.yaml:/etc/prometheus/prometheus.yml
+      - observability_storage:/data
+    command: |
+      --config.file=/etc/prometheus/prometheus.yml
+      --storage.tsdb.path=/data/prometheus
+      --web.enable-remote-write-receiver
+      --web.enable-otlp-receiver
+      --enable-feature=exemplar-storage
+      --enable-feature=native-histograms
+    restart: unless-stopped
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+  loki:
+    image: grafana/loki:latest
+    profiles:
+      - otel
+    volumes:
+      - ./docker/loki/config.yaml:/etc/loki/local-config.yaml
+      - observability_storage:/data
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+  tempo:
+    image: grafana/tempo:latest
+    profiles:
+      - otel
+    volumes:
+      - ./docker/tempo/config.yaml:/etc/tempo.yaml
+      - observability_storage:/data
+    command: ["-config.file=/etc/tempo.yaml"]
+    restart: unless-stopped
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+  pyroscope:
+    image: grafana/pyroscope:latest
+    profiles:
+      - otel
+    volumes:
+      - ./docker/pyroscope/config.yaml:/etc/pyroscope/server.yaml
+      - observability_storage:/data
+    command: ["server"]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+  grafana:
+    image: grafana/grafana:latest
+    profiles:
+      - otel
+    ports:
+      - 3000:3000
+    volumes:
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning
+      - observability_storage:/data
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_DATA=/data/grafana
+      - GF_PATHS_LOGS=/data/grafana/log
+      - GF_PATHS_PLUGINS=/data/grafana/plugins
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
 volumes:
+  observability_storage:
   go-cache:
   deno-cache:
   db-data:

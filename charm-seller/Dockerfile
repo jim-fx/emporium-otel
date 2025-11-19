@@ -27,4 +27,4 @@ ENV APP_CACHE_DIR=/var/cache
 WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts

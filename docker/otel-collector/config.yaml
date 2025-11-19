@@ -1,0 +1,106 @@
+receivers:
+  filelog/docker:
+    include:
+      - /var/lib/docker/containers/*/*-json.log
+    start_at: end
+    include_file_path: false
+    include_file_name: false
+    poll_interval: 200ms
+    operators:
+      - id: docker-parser
+        type: container
+        format: docker
+        add_metadata_from_filepath: false
+
+      - id: docker-tag-split
+        type: regex_parser
+        if: 'attributes["attrs"] != nil && attributes["attrs"]["tag"] != nil'
+        parse_from: attributes["attrs"]["tag"]
+        regex: '^(?P<container_name>[^|]+)\|(?P<container_image>[^|]+)\|(?P<container_id>[^|]+)$'
+
+      - id: copy-container-id
+        type: copy
+        if: 'attributes["container_name"] != nil'
+        from: attributes["container_name"]
+        to: resource["service.name"]
+
+      - id: move-service-name
+        type: move
+        if: 'attributes["container_name"] != nil'
+        from: attributes["container_name"]
+        to: resource["docker.container_name"]
+
+      - id: move-image-name
+        type: move
+        if: 'attributes["container_image"] != nil'
+        from: attributes["container_image"]
+        to: resource["docker.image.name"]
+
+      - id: move-container-id
+        type: move
+        if: 'attributes["container_id"] != nil'
+        from: attributes["container_id"]
+        to: resource["docker.container_id"]
+
+      - id: drop-attrs-tag
+        type: remove
+        if: 'attributes["attrs"] != nil && attributes["attrs"]["tag"] != nil'
+        field: attributes["attrs"]["tag"]
+
+  docker_stats:
+    endpoint: unix:///var/run/docker.sock
+    collection_interval: 30s
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://*
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+    path: "/ready"
+
+processors:
+  batch:
+
+exporters:
+  otlphttp/metrics:
+    endpoint: http://prometheus:9090/api/v1/otlp
+    tls:
+      insecure: true
+  otlphttp/traces:
+    endpoint: http://tempo:4418
+    tls:
+      insecure: true
+  otlphttp/logs:
+    endpoint: http://loki:3100/otlp
+    tls:
+      insecure: true
+  otlp/profiles:
+    endpoint: http://pyroscope:4040
+    tls:
+      insecure: true
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp/traces]
+    metrics:
+      receivers: [otlp, docker_stats]
+      processors: [batch]
+      exporters: [otlphttp/metrics]
+    logs:
+      receivers: [filelog/docker]
+      processors: [batch]
+      exporters: [otlphttp/logs]
+    profiles:
+      receivers: [otlp]
+      exporters: [otlp/profiles]
