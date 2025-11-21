@@ -11,6 +11,7 @@ def send_confirmation_email(order_data):
     """Sends an order confirmation email."""
     sender = 'scribe@emporium.com'
     receiver = order_data['user_id']
+    print("order_data", order_data)
     # In a real app, you'd look up the username. For now, we'll use the user_id.
     username = order_data['user_id']
     order_id = random.randint(1000, 9999) # This is temporary until a real ID is available

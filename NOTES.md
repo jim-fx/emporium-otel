@@ -15,6 +15,8 @@ For that we need to add the following to `/etc/docker/daemon.json`:
 }
 ```
 
+> Note: After adding it we need to recreate the containers
+
 Then we can parse those tags with those slightly complicated looking `filelog` receiver:
 
 ```json

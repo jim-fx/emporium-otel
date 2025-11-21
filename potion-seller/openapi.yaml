@@ -83,7 +83,7 @@ components:
         - id
         - name
         - price
-        - stock
+        - quantity
       properties:
         id:
           type: string

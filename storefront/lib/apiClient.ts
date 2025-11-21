@@ -6,7 +6,6 @@ interface ApiProduct {
   id: string;
   name: string;
   price: number;
-  stock: number;
   image?: string;
   description: string;
   quantity: number;
@@ -36,7 +35,9 @@ interface ApiOrder {
   updatedAt: string;
 }
 
-async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
+export async function getProductsBySeller(
+  sellerId: string,
+): Promise<Product[]> {
   const seller = sellers.find((s) => s.id === sellerId);
   if (!seller) {
     throw new Error(`Seller not found: ${sellerId}`);
@@ -57,7 +58,6 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
       price: apiProduct.price,
       description: apiProduct.description,
       rarity: apiProduct.rarity,
-      stock: apiProduct.stock,
       seller: seller.id,
       quantity: apiProduct.quantity,
       image: apiProduct.image || `/products/${apiProduct.name}.png`,
@@ -79,11 +79,7 @@ export async function getProduct(
     throw new Error(`Seller not found: ${sellerId}`);
   }
 
-  const productUrl = `${seller.url}/products/${productName}`;
-
-  console.log({ productUrl });
-
-  const response = await fetch(productUrl);
+  const response = await fetch(`${seller.url}/products/${productName}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch products from ${seller.name}`);
   }
@@ -98,7 +94,7 @@ export async function getProduct(
       price: apiProduct.price,
       description: apiProduct.description,
       rarity: apiProduct.rarity,
-      stock: apiProduct.stock,
+      quantity: apiProduct.quantity,
       seller: seller.id,
       image: apiProduct.image || `/products/${apiProduct.name}.png`,
     };
@@ -111,15 +107,9 @@ export async function getProduct(
 
 export async function listProducts(): Promise<Product[]> {
   const allProducts = await Promise.all(
-    sellers.map((seller) => fetchProductsFromSeller(seller.id)),
+    sellers.map((seller) => getProductsBySeller(seller.id)),
   );
   return allProducts.flat();
-}
-
-export function getProductsBySeller(
-  sellerId: string,
-): Promise<Product[]> {
-  return fetchProductsFromSeller(sellerId);
 }
 
 export async function createOrder(order: OrderCreate): Promise<void> {

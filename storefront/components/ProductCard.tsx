@@ -42,7 +42,7 @@ const getFrameUrl = (name: string, rarity: Product["rarity"]) => {
 };
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { name, price, description, image, rarity, seller } = product;
+  const { name, price, description, image, rarity, seller, quantity } = product;
   const { addToCart } = useCart();
 
   return (
@@ -63,9 +63,8 @@ export function ProductCard({ product }: ProductCardProps) {
             className="object-position-top w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-md"
           />
           <Badge
-            className={`absolute top-2 right-2 ${
-              rarityColors[rarity]
-            } border-0`}
+            className={`absolute top-2 right-2 ${rarityColors[rarity]
+              } border-0`}
           >
             {rarity}
           </Badge>
@@ -86,6 +85,7 @@ export function ProductCard({ product }: ProductCardProps) {
           by {seller}
         </Link>
         <p className="text-slate-400 text-sm mb-4 flex-grow">
+          {}
           {description.slice(0, 100)}...
         </p>
         <div className="flex items-center justify-between mt-auto">

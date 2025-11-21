@@ -21,7 +21,8 @@ def callback(ch, method, properties, body):
 def get_rabbitmq_connection():
     try:
         rabbitmq_host = os.getenv('RABBITMQ_HOST', 'rabbitmq')
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
+        credentials = pika.PlainCredentials('rabbit', 'rabbit')
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host, credentials=credentials))
         print("Order-Worker successfully connected to RabbitMQ.")
         return connection
     except pika.exceptions.AMQPConnectionError as e:

@@ -6,7 +6,7 @@ export interface Product {
   image: string;
   rarity: "common" | "uncommon" | "rare" | "epic" | "legendary";
   seller: string;
-  stock: number;
+  quantity: number;
 }
 
 export interface CartItem {
