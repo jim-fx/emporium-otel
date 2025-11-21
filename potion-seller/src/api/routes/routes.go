@@ -1,4 +1,4 @@
-// routes provides routes
+// Package routes provides routes
 package routes
 
 import (

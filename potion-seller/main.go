@@ -8,10 +8,13 @@ import (
 	"github.com/jim-fx/otel-shop-api/src/api"
 	"github.com/jim-fx/otel-shop-api/src/db"
 	"github.com/jim-fx/otel-shop-api/src/otel"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 func main() {
 	router := gin.Default()
+
+	router.Use(otelgin.Middleware("potion-seller"))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -28,5 +31,8 @@ func main() {
 	}
 
 	api.Register(router, db)
-	router.Run("0.0.0.0:80")
+
+	if err := router.Run("0.0.0.0:80"); err != nil {
+		panic(err)
+	}
 }

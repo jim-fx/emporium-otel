@@ -5,7 +5,10 @@ import (
 	"fmt"
 
 	"github.com/jackc/pgx/v5"
+	"go.opentelemetry.io/otel"
 )
+
+var tracer = otel.Tracer("potion-seller/db")
 
 type Product struct {
 	ID          string `db:"id"`
@@ -20,6 +23,9 @@ type Product struct {
 
 // ListProducts returns all products ordered by name.
 func (db *DB) ListProducts(ctx context.Context) ([]Product, error) {
+	ctx, span := tracer.Start(ctx, "ListProducts")
+	defer span.End()
+
 	rows, err := db.conn.Query(ctx, `
 		SELECT
 			id,

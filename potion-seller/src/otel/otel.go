@@ -11,6 +11,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.opentelemetry.io/otel/sdk/trace"
@@ -28,7 +29,6 @@ func getOtelHost() (string, error) {
 	host := u.Hostname()
 	port := u.Port()
 
-	// Optional: add default ports based on scheme
 	if port == "" {
 		switch u.Scheme {
 		case "http":
@@ -71,7 +71,16 @@ func initTracerProvider(ctx context.Context) (func(context.Context) error, error
 		trace.WithResource(res),
 		trace.WithSpanProcessor(bsp),
 	)
+
 	otel.SetTracerProvider(tracerProvider)
+
+	otel.SetTextMapPropagator(
+		propagation.NewCompositeTextMapPropagator(
+			propagation.TraceContext{},
+			propagation.Baggage{},
+		),
+	)
+
 	return tracerProvider.Shutdown, nil
 }
 

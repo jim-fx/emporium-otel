@@ -77,6 +77,13 @@ extensions:
 
 processors:
   batch:
+  filter/otel-logs:
+    logs:
+      include:
+        match_type: regexp
+        resource_attributes:
+          - key: docker.container_name
+            value: ^otel-
 
 exporters:
   otlphttp/metrics:
@@ -105,5 +112,5 @@ service:
       exporters: [otlphttp/metrics]
     logs:
       receivers: [filelog/docker]
-      processors: [batch]
+      processors: [filter/otel-logs, batch]
       exporters: [otlphttp/logs]

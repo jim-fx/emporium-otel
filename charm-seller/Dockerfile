@@ -19,6 +19,9 @@ RUN docker-php-ext-install \
     zip \
     opcache
 
+RUN pecl install opentelemetry \
+    && docker-php-ext-enable opentelemetry
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN mkdir -p /var/cache && chown www-data:www-data /var/cache

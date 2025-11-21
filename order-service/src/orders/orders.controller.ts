@@ -23,7 +23,7 @@ export class OrdersController {
     @InjectRepository(Order) private readonly orderRepository: EntityRepository<
       Order
     >,
-  ) { }
+  ) {}
 
   @Post()
   async createOrder(@Body() createOrderDto: CreateOrderDto) {
@@ -73,7 +73,9 @@ export class OrdersController {
   }
 
   @Get("user/:userId")
-  async getOrdersByUserId(@Param("userId") userId: string) {
+  async getOrdersByUserId(
+    @Param("userId") userId: string,
+  ) {
     const orders = await this.orderRepository.find({ userId });
     return orders;
   }

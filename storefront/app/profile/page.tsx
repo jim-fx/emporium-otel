@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { ArrowLeft } from "lucide-react";
-import { tracedFetch } from "../../lib/tracingFetch.ts";
 
 async function getUserOrders(userId: string) {
   if (!userId) {
     return [];
   }
 
-  const orderResponse = await tracedFetch(
+  const orderResponse = await fetch(
     `http://order-service/orders/user/${userId}`,
   );
 

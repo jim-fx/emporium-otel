@@ -63,12 +63,3 @@ type GetProductsParams struct {
 	// Offset Number of products to skip before starting to collect the result set.
 	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
 }
-
-// PostProductsProductIdPurchaseJSONBody defines parameters for PostProductsProductIdPurchase.
-type PostProductsProductIdPurchaseJSONBody struct {
-	// Quantity Number of units to purchase.
-	Quantity int `json:"quantity"`
-}
-
-// PostProductsProductIdPurchaseJSONRequestBody defines body for PostProductsProductIdPurchase for application/json ContentType.
-type PostProductsProductIdPurchaseJSONRequestBody PostProductsProductIdPurchaseJSONBody

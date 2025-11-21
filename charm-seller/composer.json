@@ -10,12 +10,18 @@
         "doctrine/doctrine-bundle": "^2.18.1",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": ">=3.5.7",
+        "guzzlehttp/promises": "*",
+        "nyholm/psr7": "*",
+        "open-telemetry/opentelemetry-auto-symfony": "^1.1",
+        "open-telemetry/symfony-sdk-bundle": "*",
+        "php-http/httplug": "*",
         "phpdocumentor/reflection-docblock": "^5.6",
         "phpstan/phpdoc-parser": "^2.3",
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
         "symfony/flex": "^2.10",
         "symfony/framework-bundle": "7.3.*",
+        "symfony/http-client": "*",
         "symfony/property-access": "7.3.*",
         "symfony/property-info": "7.3.*",
         "symfony/runtime": "7.3.*",
@@ -27,7 +33,8 @@
         "allow-plugins": {
             "php-http/discovery": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "tbachert/spi": true
         },
         "bump-after-update": true,
         "sort-packages": true,

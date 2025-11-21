@@ -5,9 +5,22 @@ import { OrdersModule } from "./orders/orders.module";
 import { GlobalRabbitMQModule } from "./rabbitmq/rabbitmq.module";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
+import { OpenTelemetryModule } from "nestjs-otel";
+
+const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
+  metrics: {
+    hostMetrics: true,
+    apiMetrics: {
+      enable: true,
+      ignoreRoutes: ["/favicon.ico"],
+      ignoreUndefinedRoutes: false,
+    },
+  },
+});
 
 @Module({
   imports: [
+    OpenTelemetryModuleConfig,
     MikroOrmModule.forRoot({
       entities: ["./dist/entities"],
       entitiesTs: ["./src/entities"],
@@ -20,4 +33,4 @@ import { MikroOrmModule } from "@mikro-orm/nestjs";
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

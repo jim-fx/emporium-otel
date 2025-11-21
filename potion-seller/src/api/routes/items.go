@@ -2,26 +2,26 @@ package routes
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jim-fx/otel-shop-api/src/api/gen"
 	"github.com/jim-fx/otel-shop-api/src/mapper"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 )
 
-// GetProducts implements gen.StrictServerInterface.
+var tracer = otel.Tracer("potion-seller/routes")
+
 func (c Core) GetProducts(ctx context.Context, request gen.GetProductsRequestObject) (gen.GetProductsResponseObject, error) {
-	fmt.Println("GetProducts")
+	gctx := ctx.(*gin.Context)
+
+	ctx, span := tracer.Start(gctx.Request.Context(), "GetProducts")
+	defer span.End()
 
 	products, err := c.DB.ListProducts(ctx)
 	if err != nil {
 		return nil, err
 	}
-
-	gctx := ctx.(*gin.Context)
-
-	traceparent := gctx.Request.Header.Get("traceparent")
-	fmt.Printf("Traceparent: %s\n", traceparent)
 
 	res := mapper.ProductsToItems(products)
 
@@ -30,8 +30,13 @@ func (c Core) GetProducts(ctx context.Context, request gen.GetProductsRequestObj
 	}, nil
 }
 
-// GetProductsProductId implements gen.StrictServerInterface.
 func (c Core) GetProductsProductId(ctx context.Context, request gen.GetProductsProductIdRequestObject) (gen.GetProductsProductIdResponseObject, error) {
+	gctx := ctx.(*gin.Context)
+
+	ctx, span := tracer.Start(gctx.Request.Context(), "GetProductsByProductId")
+	span.SetAttributes(attribute.String("product_id", request.ProductId))
+	defer span.End()
+
 	product, err := c.DB.GetProductByName(ctx, request.ProductId)
 	if err != nil {
 		return nil, err
@@ -40,14 +45,4 @@ func (c Core) GetProductsProductId(ctx context.Context, request gen.GetProductsP
 	item := mapper.ProductToItem(*product)
 
 	return gen.GetProductsProductId200JSONResponse(item), nil
-}
-
-// GetProductsProductIdStock implements gen.StrictServerInterface.
-func (c Core) GetProductsProductIdStock(ctx context.Context, request gen.GetProductsProductIdStockRequestObject) (gen.GetProductsProductIdStockResponseObject, error) {
-	panic("unimplemented")
-}
-
-// PostProductsProductIdPurchase implements gen.StrictServerInterface.
-func (c Core) PostProductsProductIdPurchase(ctx context.Context, request gen.PostProductsProductIdPurchaseRequestObject) (gen.PostProductsProductIdPurchaseResponseObject, error) {
-	panic("unimplemented")
 }
