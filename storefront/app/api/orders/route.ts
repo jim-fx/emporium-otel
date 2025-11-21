@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
 
     if (!orderResponse.ok) {
       const errorData = await orderResponse.json();
+      console.log({ errorData });
       return NextResponse.json({
         detail: errorData.detail || "Failed to create order",
       }, { status: orderResponse.status });

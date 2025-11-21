@@ -4,6 +4,7 @@ import json
 import sys
 from tenacity import retry, stop_after_attempt, wait_fixed
 import email_client
+from tracing import configure_tracing
 
 def callback(ch, method, properties, body):
     print(f" [x] Received order message")
@@ -28,6 +29,7 @@ def get_rabbitmq_connection():
         raise
 
 def main():
+    configure_tracing()
     connection = get_rabbitmq_connection()
     channel = connection.channel()
 

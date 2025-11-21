@@ -47,8 +47,10 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
     throw new Error(`Failed to fetch products from ${seller.name}`);
   }
 
+  const text = await response.text();
+
   try {
-    const data: { products: ApiProduct[] } = await response.json();
+    const data: { products: ApiProduct[] } = JSON.parse(text);
     return data.products.map((apiProduct) => ({
       id: apiProduct.id,
       name: apiProduct.name,
@@ -61,6 +63,7 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
       image: apiProduct.image || `/products/${apiProduct.name}.png`,
     }));
   } catch (e: any) {
+    console.log({ text });
     throw new Error(
       `Failed to parse products from ${seller.url}, ${e?.message}`,
     );
@@ -86,34 +89,6 @@ export async function getProduct(
 ): Promise<Product | undefined> {
   const products = await fetchProductsFromSeller(sellerId);
   return products.find((p) => p.name === productName);
-}
-
-export async function purchaseItem(
-  sellerId: string,
-  productName: string,
-  quantity: number,
-): Promise<void> {
-  const seller = sellers.find((s) => s.id === sellerId);
-  if (!seller) {
-    throw new Error(`Service URL not found for seller: ${sellerId}`);
-  }
-
-  const response = await fetch(
-    `${seller.url}/items/${productName}/purchase`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ quantity }),
-    },
-  );
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || `Failed to purchase ${productName}`);
-  }
-  // Optionally, you could return the updated stock or other info from the response
 }
 
 export async function createOrder(order: OrderCreate): Promise<void> {

@@ -2,6 +2,10 @@ import smtplib
 import os
 import random
 from email.mime.text import MIMEText
+from opentelemetry import trace
+from opentelemetry.trace import StatusCode
+
+tracer = trace.get_tracer(__name__)
 
 def send_confirmation_email(order_data):
     """Sends an order confirmation email."""
@@ -27,10 +31,16 @@ def send_confirmation_email(order_data):
     msg['From'] = sender
     msg['To'] = receiver
 
-    try:
-        with smtplib.SMTP(os.getenv('SMTP_HOST', 'smtp4dev'), int(os.getenv('SMTP_PORT', 25))) as s:
-            s.send_message(msg)
-        print(f" [x] Sent confirmation email for order #{order_id} to {receiver}")
-    except Exception as e:
-        print(f" [!] Failed to send email for order #{order_id}. Error: {e}")
-        raise
+    with tracer.start_as_current_span("send_confirmation_email") as span:
+        span.set_attribute("order_id", order_id)
+        span.set_attribute("recipient", receiver)
+        span.set_attribute("total_price", total_price)
+        try:
+            with smtplib.SMTP(os.getenv('SMTP_HOST', 'smtp4dev'), int(os.getenv('SMTP_PORT', 25))) as s:
+                s.send_message(msg)
+            print(f" [x] Sent confirmation email for order #{order_id} to {receiver}")
+            span.set_status(StatusCode.OK)
+        except Exception as e:
+            print(f" [!] Failed to send email for order #{order_id}. Error: {e}")
+            span.set_status(StatusCode.ERROR, description=str(e))
+            raise

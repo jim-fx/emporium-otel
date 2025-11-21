@@ -24,6 +24,12 @@ final class ProductController extends AbstractController
         $products = $this->productRepository->findBy(['type' => 'charm'], null, $limit, $offset);
         $total = $this->productRepository->count(['type' => 'charm']);
 
+        error_log('OTel headers: ' . json_encode([
+            'traceparent' => $_SERVER['HTTP_TRACEPARENT'] ?? null,
+            'tracestate'  => $_SERVER['HTTP_TRACESTATE'] ?? null,
+            'baggage'     => $_SERVER['HTTP_BAGGAGE'] ?? null,
+        ]));
+
         return $this->json([
             'products' => $products,
             'total' => $total,
@@ -44,45 +50,4 @@ final class ProductController extends AbstractController
         return $this->json($item, 200, [], ['groups' => 'product:read']);
     }
 
-
-    #[Route('/products/{productId}/stock', name: 'get_item_stock', methods: ['GET'])]
-    public function getProductStock(string $productId): JsonResponse
-    {
-        // TODO: Implement stock management.
-        // This is a dummy response as the 'stock' column is not in the 'products' table.
-        $item = $this->productRepository->find($productId);
-
-        if (!$item) {
-            return $this->json(['message' => 'Product not found'], 404);
-        }
-
-        return $this->json([
-            'productId' => $productId,
-            'remaining' => 0, // Dummy value
-        ]);
-    }
-
-    #[Route('/products/{productId}/purchase', name: 'purchase_item', methods: ['POST'])]
-    public function purchaseProduct(string $productId, Request $request): JsonResponse
-    {
-        // TODO: Implement stock management.
-        // This is a dummy response as the 'stock' column is not in the 'products' table.
-        $item = $this->productRepository->find($productId);
-
-        if (!$item) {
-            return $this->json(['message' => 'Product not found'], 404);
-        }
-
-        $quantity = $request->toArray()['quantity'] ?? 0;
-
-        if ($quantity <= 0) {
-            return $this->json(['message' => 'Invalid quantity'], 400);
-        }
-
-        return $this->json([
-            'productId' => $productId,
-            'purchased' => $quantity,
-            'remaining' => 0, // Dummy value
-        ]);
-    }
 }

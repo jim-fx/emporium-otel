@@ -122,6 +122,8 @@ services:
     build:
       context: ./order-service
     working_dir: /app
+    environment:
+      CI: true
     command: sh -c "pnpm i && pnpm run start:dev"
     ports:
       - 8084:80
@@ -137,10 +139,18 @@ services:
     <<: *default-service
     build:
       context: ./scribe-worker
+    environment:
+      OTEL_SERVICE_NAME: "scribe-worker"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"
+      OTEL_PROPAGATORS: "tracecontext,baggage"
+    volumes:
+      - ./scribe-worker/src:/app
     depends_on:
       rabbitmq:
         condition: service_started
       smtp4dev:
+        condition: service_started
+      otel-collector:
         condition: service_started
 
   otel-collector:
