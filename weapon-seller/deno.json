@@ -1,5 +1,8 @@
 {
   "imports": {
+    "@hono/otel": "jsr:@hono/otel@^1.0.1",
+    "@kubiks/otel-drizzle": "npm:@kubiks/otel-drizzle@^2.1.0",
+    "@opentelemetry/api": "npm:@opentelemetry/api@^1.9.0",
     "@types/pg": "npm:@types/pg@^8.15.6",
     "drizzle-kit": "npm:drizzle-kit@^0.31.7",
     "drizzle-orm": "npm:drizzle-orm@^0.44.7",

@@ -30,19 +30,19 @@ func (c Core) GetProducts(ctx context.Context, request gen.GetProductsRequestObj
 	}, nil
 }
 
-func (c Core) GetProductsProductId(ctx context.Context, request gen.GetProductsProductIdRequestObject) (gen.GetProductsProductIdResponseObject, error) {
+func (c Core) GetProductsProductName(ctx context.Context, request gen.GetProductsProductNameRequestObject) (gen.GetProductsProductNameResponseObject, error) {
 	gctx := ctx.(*gin.Context)
 
 	ctx, span := tracer.Start(gctx.Request.Context(), "GetProductsByProductId")
-	span.SetAttributes(attribute.String("product_id", request.ProductId))
+	span.SetAttributes(attribute.String("product_name", request.ProductName))
 	defer span.End()
 
-	product, err := c.DB.GetProductByName(ctx, request.ProductId)
+	product, err := c.DB.GetProductByName(ctx, request.ProductName)
 	if err != nil {
 		return nil, err
 	}
 
 	item := mapper.ProductToItem(*product)
 
-	return gen.GetProductsProductId200JSONResponse(item), nil
+	return gen.GetProductsProductName200JSONResponse(item), nil
 }

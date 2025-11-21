@@ -70,6 +70,45 @@ async function fetchProductsFromSeller(sellerId: string): Promise<Product[]> {
   }
 }
 
+export async function getProduct(
+  sellerId: string,
+  productName: string,
+): Promise<Product> {
+  const seller = sellers.find((s) => s.id === sellerId);
+  if (!seller) {
+    throw new Error(`Seller not found: ${sellerId}`);
+  }
+
+  const productUrl = `${seller.url}/products/${productName}`;
+
+  console.log({ productUrl });
+
+  const response = await fetch(productUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch products from ${seller.name}`);
+  }
+
+  const text = await response.text();
+
+  try {
+    const apiProduct: ApiProduct = JSON.parse(text);
+    return {
+      id: apiProduct.id,
+      name: apiProduct.name,
+      price: apiProduct.price,
+      description: apiProduct.description,
+      rarity: apiProduct.rarity,
+      stock: apiProduct.stock,
+      seller: seller.id,
+      image: apiProduct.image || `/products/${apiProduct.name}.png`,
+    };
+  } catch (e: any) {
+    throw new Error(
+      `Failed to parse products from ${seller.url}, ${e?.message}`,
+    );
+  }
+}
+
 export async function listProducts(): Promise<Product[]> {
   const allProducts = await Promise.all(
     sellers.map((seller) => fetchProductsFromSeller(seller.id)),
@@ -81,14 +120,6 @@ export function getProductsBySeller(
   sellerId: string,
 ): Promise<Product[]> {
   return fetchProductsFromSeller(sellerId);
-}
-
-export async function getProduct(
-  sellerId: string,
-  productName: string,
-): Promise<Product | undefined> {
-  const products = await fetchProductsFromSeller(sellerId);
-  return products.find((p) => p.name === productName);
 }
 
 export async function createOrder(order: OrderCreate): Promise<void> {

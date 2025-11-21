@@ -50,15 +50,15 @@ paths:
                   offset:
                     type: integer
 
-  /products/{productId}:
+  /products/{productName}:
     get:
       summary: Get a magical product
       description: Returns details for a single magical product, including stock level.
       parameters:
-        - name: productId
+        - name: productName
           in: path
           required: true
-          description: Unique identifier of the product.
+          description: Name of the product.
           schema:
             type: string
       responses:

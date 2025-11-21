@@ -58,6 +58,7 @@ func (db *DB) ListProducts(ctx context.Context) ([]Product, error) {
 func (db *DB) GetProductByName(ctx context.Context, name string) (*Product, error) {
 	rows, err := db.conn.Query(ctx, `
 		SELECT
+			id,
 			name,
 			type,
 			rarity,
@@ -66,13 +67,15 @@ func (db *DB) GetProductByName(ctx context.Context, name string) (*Product, erro
 			description,
 			quantity
 		FROM products
-		WHERE name = $1
+		WHERE name = $1 AND type = 'potion'
 		LIMIT 1;
 	`, name)
 	if err != nil {
 		return nil, fmt.Errorf("query products: %w", err)
 	}
 	defer rows.Close()
+
+	fmt.Println(rows.RawValues())
 
 	products, err := pgx.CollectRows(rows, pgx.RowToStructByName[Product])
 	if err != nil {

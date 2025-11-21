@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { getCookie, setCookie } from "../lib/clientCookies";
+import { getCookie, setCookie } from "../lib/cookies";
 import { generateRandomUser } from "../lib/user";
 
 export function UserInitializer() {

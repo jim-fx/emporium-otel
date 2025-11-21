@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { products as productSchema } from "./schema.ts";
 import pg from "pg";
 import { and, eq } from "drizzle-orm";
+import { instrumentDrizzleClient } from "@kubiks/otel-drizzle";
 
 // Use pg driver.
 const { Pool } = pg;
@@ -12,6 +13,8 @@ export const db = drizzle({
   }),
   schema: { productSchema },
 });
+
+instrumentDrizzleClient(db);
 
 export function listProducts() {
   return db

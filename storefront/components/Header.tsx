@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getCookie } from "../lib/clientCookies.ts";
+import { getCookie } from "../lib/cookies.ts";
 import { ShoppingCartDrawer } from "./ShoppingCartDrawer.tsx";
 import { useCart } from "../context/CartContext.tsx";
 

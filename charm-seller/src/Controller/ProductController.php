@@ -38,10 +38,10 @@ final class ProductController extends AbstractController
         ], 200, [], ['groups' => 'product:read']);
     }
 
-    #[Route('/products/{productId}', name: 'get_item', methods: ['GET'])]
-    public function getProduct(string $productId): JsonResponse
+    #[Route('/products/{productName}', name: 'get_item', methods: ['GET'])]
+    public function getProduct(string $productName): JsonResponse
     {
-        $item = $this->productRepository->find($productId);
+        $item = $this->productRepository->findOneBy(["name" => $productName], null, 1);
 
         if (!$item) {
             return $this->json(['message' => 'Product not found'], 404);

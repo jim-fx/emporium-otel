@@ -1,17 +1,36 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@cloudydeno/opentelemetry@*": "0.11.0",
+    "jsr:@hono/hono@*": "4.10.6",
     "jsr:@hono/hono@^4.10.6": "4.10.6",
+    "jsr:@hono/hono@^4.8.3": "4.10.6",
+    "jsr:@hono/otel@*": "1.0.1",
+    "jsr:@hono/otel@^1.0.1": "1.0.1",
+    "npm:@kubiks/otel-drizzle@^2.1.0": "2.1.0_@opentelemetry+api@1.9.0_drizzle-orm@0.44.7__@types+pg@8.15.6__pg@8.16.3__postgres@3.4.7__@opentelemetry+api@1.9.0_@types+pg@8.15.6_pg@8.16.3_postgres@3.4.7",
+    "npm:@opentelemetry/api@^1.9.0": "1.9.0",
+    "npm:@opentelemetry/semantic-conventions@^1.28.0": "1.38.0",
     "npm:@types/node@*": "24.2.0",
     "npm:@types/pg@^8.15.6": "8.15.6",
     "npm:drizzle-kit@~0.31.7": "0.31.7_esbuild@0.25.12",
-    "npm:drizzle-orm@~0.44.7": "0.44.7_@types+pg@8.15.6_pg@8.16.3_postgres@3.4.7",
+    "npm:drizzle-orm@~0.44.7": "0.44.7_@types+pg@8.15.6_pg@8.16.3_postgres@3.4.7_@opentelemetry+api@1.9.0",
     "npm:pg@^8.16.3": "8.16.3",
     "npm:postgres@^3.4.7": "3.4.7"
   },
   "jsr": {
+    "@cloudydeno/opentelemetry@0.11.0": {
+      "integrity": "a7be5d86697b1e733639b73e16758f469fb104f887280b87792dc4e39100fe09"
+    },
     "@hono/hono@4.10.6": {
       "integrity": "bcbbf9753a3570f2fa4609484bae0cead85a3feb110ee9ceb7ffc37d845d9a4d"
+    },
+    "@hono/otel@1.0.1": {
+      "integrity": "b2531a36716d9c410ece99a51acd3b94c729880100ed9113f45a8fe86d3af27c",
+      "dependencies": [
+        "jsr:@hono/hono@^4.8.3",
+        "npm:@opentelemetry/api",
+        "npm:@opentelemetry/semantic-conventions"
+      ]
     }
   },
   "npm": {
@@ -274,6 +293,19 @@
       "os": ["win32"],
       "cpu": ["x64"]
     },
+    "@kubiks/otel-drizzle@2.1.0_@opentelemetry+api@1.9.0_drizzle-orm@0.44.7__@types+pg@8.15.6__pg@8.16.3__postgres@3.4.7__@opentelemetry+api@1.9.0_@types+pg@8.15.6_pg@8.16.3_postgres@3.4.7": {
+      "integrity": "sha512-9UHb0od3jwa6zTWMyEYPIZcUq5PDaziCmQLMLakSK2zeqy12SFZ3SAGWXJTgEr8valn/Wa+DKVs+Z3aqKQUpvg==",
+      "dependencies": [
+        "@opentelemetry/api",
+        "drizzle-orm@0.44.7_@types+pg@8.15.6_pg@8.16.3_postgres@3.4.7_@opentelemetry+api@1.9.0"
+      ]
+    },
+    "@opentelemetry/api@1.9.0": {
+      "integrity": "sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg=="
+    },
+    "@opentelemetry/semantic-conventions@1.38.0": {
+      "integrity": "sha512-kocjix+/sSggfJhwXqClZ3i9Y/MI0fp7b+g7kCRm6psy2dsf8uApTRclwG18h8Avm7C9+fnt+O36PspJ/OzoWg=="
+    },
     "@types/node@24.2.0": {
       "integrity": "sha512-3xyG3pMCq3oYCNg7/ZP+E1ooTaGB4cG8JWRsqqOYQdbWNY4zbaV0Ennrd7stjiJEFZCaybcIgpTjJWHRfBSIDw==",
       "dependencies": [
@@ -315,6 +347,21 @@
         "postgres"
       ],
       "optionalPeers": [
+        "@types/pg",
+        "pg",
+        "postgres"
+      ]
+    },
+    "drizzle-orm@0.44.7_@types+pg@8.15.6_pg@8.16.3_postgres@3.4.7_@opentelemetry+api@1.9.0": {
+      "integrity": "sha512-quIpnYznjU9lHshEOAYLoZ9s3jweleHlZIAWR/jX9gAWNg/JhQ1wj0KGRf7/Zm+obRrYd9GjPVJg790QY9N5AQ==",
+      "dependencies": [
+        "@opentelemetry/api",
+        "@types/pg",
+        "pg",
+        "postgres"
+      ],
+      "optionalPeers": [
+        "@opentelemetry/api",
         "@types/pg",
         "pg",
         "postgres"
@@ -489,6 +536,9 @@
   "workspace": {
     "dependencies": [
       "jsr:@hono/hono@^4.10.6",
+      "jsr:@hono/otel@^1.0.1",
+      "npm:@kubiks/otel-drizzle@^2.1.0",
+      "npm:@opentelemetry/api@^1.9.0",
       "npm:@types/pg@^8.15.6",
       "npm:drizzle-kit@~0.31.7",
       "npm:drizzle-orm@~0.44.7",

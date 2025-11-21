@@ -20,8 +20,8 @@ type ServerInterface interface {
 	// (GET /products)
 	GetProducts(c *gin.Context, params GetProductsParams)
 	// Get a magical product
-	// (GET /products/{productId})
-	GetProductsProductId(c *gin.Context, productId string)
+	// (GET /products/{productName})
+	GetProductsProductName(c *gin.Context, productName string)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -67,17 +67,17 @@ func (siw *ServerInterfaceWrapper) GetProducts(c *gin.Context) {
 	siw.Handler.GetProducts(c, params)
 }
 
-// GetProductsProductId operation middleware
-func (siw *ServerInterfaceWrapper) GetProductsProductId(c *gin.Context) {
+// GetProductsProductName operation middleware
+func (siw *ServerInterfaceWrapper) GetProductsProductName(c *gin.Context) {
 
 	var err error
 
-	// ------------- Path parameter "productId" -------------
-	var productId string
+	// ------------- Path parameter "productName" -------------
+	var productName string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "productId", c.Param("productId"), &productId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "productName", c.Param("productName"), &productName, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter productId: %w", err), http.StatusBadRequest)
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter productName: %w", err), http.StatusBadRequest)
 		return
 	}
 
@@ -88,7 +88,7 @@ func (siw *ServerInterfaceWrapper) GetProductsProductId(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetProductsProductId(c, productId)
+	siw.Handler.GetProductsProductName(c, productName)
 }
 
 // GinServerOptions provides options for the Gin server.
@@ -119,7 +119,7 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	}
 
 	router.GET(options.BaseURL+"/products", wrapper.GetProducts)
-	router.GET(options.BaseURL+"/products/:productId", wrapper.GetProductsProductId)
+	router.GET(options.BaseURL+"/products/:productName", wrapper.GetProductsProductName)
 }
 
 type GetProductsRequestObject struct {
@@ -146,26 +146,26 @@ func (response GetProducts200JSONResponse) VisitGetProductsResponse(w http.Respo
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetProductsProductIdRequestObject struct {
-	ProductId string `json:"productId"`
+type GetProductsProductNameRequestObject struct {
+	ProductName string `json:"productName"`
 }
 
-type GetProductsProductIdResponseObject interface {
-	VisitGetProductsProductIdResponse(w http.ResponseWriter) error
+type GetProductsProductNameResponseObject interface {
+	VisitGetProductsProductNameResponse(w http.ResponseWriter) error
 }
 
-type GetProductsProductId200JSONResponse Product
+type GetProductsProductName200JSONResponse Product
 
-func (response GetProductsProductId200JSONResponse) VisitGetProductsProductIdResponse(w http.ResponseWriter) error {
+func (response GetProductsProductName200JSONResponse) VisitGetProductsProductNameResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
 	return json.NewEncoder(w).Encode(response)
 }
 
-type GetProductsProductId404JSONResponse Error
+type GetProductsProductName404JSONResponse Error
 
-func (response GetProductsProductId404JSONResponse) VisitGetProductsProductIdResponse(w http.ResponseWriter) error {
+func (response GetProductsProductName404JSONResponse) VisitGetProductsProductNameResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(404)
 
@@ -178,8 +178,8 @@ type StrictServerInterface interface {
 	// (GET /products)
 	GetProducts(ctx context.Context, request GetProductsRequestObject) (GetProductsResponseObject, error)
 	// Get a magical product
-	// (GET /products/{productId})
-	GetProductsProductId(ctx context.Context, request GetProductsProductIdRequestObject) (GetProductsProductIdResponseObject, error)
+	// (GET /products/{productName})
+	GetProductsProductName(ctx context.Context, request GetProductsProductNameRequestObject) (GetProductsProductNameResponseObject, error)
 }
 
 type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
@@ -221,17 +221,17 @@ func (sh *strictHandler) GetProducts(ctx *gin.Context, params GetProductsParams)
 	}
 }
 
-// GetProductsProductId operation middleware
-func (sh *strictHandler) GetProductsProductId(ctx *gin.Context, productId string) {
-	var request GetProductsProductIdRequestObject
+// GetProductsProductName operation middleware
+func (sh *strictHandler) GetProductsProductName(ctx *gin.Context, productName string) {
+	var request GetProductsProductNameRequestObject
 
-	request.ProductId = productId
+	request.ProductName = productName
 
 	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
-		return sh.ssi.GetProductsProductId(ctx, request.(GetProductsProductIdRequestObject))
+		return sh.ssi.GetProductsProductName(ctx, request.(GetProductsProductNameRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "GetProductsProductId")
+		handler = middleware(handler, "GetProductsProductName")
 	}
 
 	response, err := handler(ctx, request)
@@ -239,8 +239,8 @@ func (sh *strictHandler) GetProductsProductId(ctx *gin.Context, productId string
 	if err != nil {
 		ctx.Error(err)
 		ctx.Status(http.StatusInternalServerError)
-	} else if validResponse, ok := response.(GetProductsProductIdResponseObject); ok {
-		if err := validResponse.VisitGetProductsProductIdResponse(ctx.Writer); err != nil {
+	} else if validResponse, ok := response.(GetProductsProductNameResponseObject); ok {
+		if err := validResponse.VisitGetProductsProductNameResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {
