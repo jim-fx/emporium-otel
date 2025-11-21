@@ -34,32 +34,6 @@ To bring our marketplace to life, you need only the power of Docker and a single
 
 3.  Once the spirits have settled, open your seeing glass (web browser) and navigate to `http://localhost:8080`. The emporium awaits!
 
-## 🔮 Current State of the Realm
-
-As of now, the emporium is partially functional:
-
-*   **Product Discovery:** The storefront successfully summons and displays all magical items from our three merchants.
-*   **Mock Checkout:** A simulated checkout process allows customers to feel the thrill of a purchase, though no real orders are yet processed.
-
-## 🚀 Whispers of the Future: An Order-Service & Message Queues
-
-The checkout process is but an illusion! To make it real, we propose the creation of a new, vital service:
-
-### The Scribe's Ledger (Order Service)
-
-To handle the sacred task of recording and processing orders, we shall summon a new service. This **Order Service** will ensure that no purchase is lost to the ether.
-
-**Proposed Architecture:**
-
-*   **Technology:** A Python service using **FastAPI** for the API and **Celery** for background tasks.
-*   **Message Queue:** We will introduce a **RabbitMQ** instance (a trusty mechanical messenger) to our `compose.yaml`.
-*   **Workflow:**
-    1.  When a customer completes a checkout in the storefront, a request is sent to the new `order-service`.
-    2.  The `order-service` accepts the request and immediately places the order details onto the RabbitMQ queue as a message.
-    3.  A separate worker process (the "Scribe") picks up the message from the queue and processes it asynchronously. This includes saving the order to the database and perhaps sending a magical confirmation missive.
-
-This design decouples our storefront from the order fulfillment process, making our emporium more resilient and scalable. It also adds another fascinating layer to our distributed tracing experiment!
-
----
+----
 
 Feel free to contribute your own enchantments to this ever-evolving project. May your code be clean and your traces be clear!

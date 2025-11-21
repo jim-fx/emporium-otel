@@ -19,7 +19,7 @@ For that we need to add the following to `/etc/docker/daemon.json`:
 
 Then we can parse those tags with those slightly complicated looking `filelog` receiver:
 
-```json
+```yaml
 filelog/docker:
   include:
     - /var/lib/docker/containers/*/*-json.log
